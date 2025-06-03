@@ -1,4 +1,5 @@
 using GolfCourseWebAPI.Context;
+using GolfCourseWebAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<GolfCourseContext>();
+builder.Services.AddScoped<IGolfCourseRepository, GolfCourseRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

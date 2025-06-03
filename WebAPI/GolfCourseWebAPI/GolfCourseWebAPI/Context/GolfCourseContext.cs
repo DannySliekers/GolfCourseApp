@@ -5,7 +5,7 @@ namespace GolfCourseWebAPI.Context
 {
     public class GolfCourseContext : DbContext
     {
-        public DbSet<GolfCourse> golf_courses { get; set; }
+        public DbSet<GolfCourse> GolfCourses { get; set; }
         public DbSet<Booking> bookings { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<GolfCourseImage> golf_course_images { get; set; }
@@ -25,12 +25,30 @@ namespace GolfCourseWebAPI.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>()
-                .Property(u => u.role)
-                .HasConversion(
-                    v => v.ToString().ToLower(),
-                    v => Enum.Parse<UserRole>(v, true)
-                );
+
+        modelBuilder.Entity<GolfCourse>(entity =>
+        {
+            entity.ToTable("golf_courses");
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Longitude).HasColumnName("longitude");
+            entity.Property(e => e.Latitude).HasColumnName("latitude");
+            entity.Property(e => e.BookingStartTime).HasColumnName("booking_start_time");
+            entity.Property(e => e.BookingLastStartTime).HasColumnName("booking_last_start_time");
+            entity.Property(e => e.StartTimeIntervalMinutes).HasColumnName("start_time_interval_minutes");
+        });
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.role)
+            .HasConversion(
+                v => v.ToString().ToLower(),
+                v => Enum.Parse<UserRole>(v, true)
+            );
         }
     }
 }

@@ -8,8 +8,8 @@
         public string Description { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public DateTime BookingStartTime { get; set; }
-        public DateTime BookingLastStartTime { get; set; }
+        public TimeOnly BookingStartTime { get; set; }
+        public TimeOnly BookingLastStartTime { get; set; }
         public int StartTimeIntervalMinutes { get; set; }
     }
 }
