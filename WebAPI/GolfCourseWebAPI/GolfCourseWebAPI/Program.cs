@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<GolfCourseContext>();
 builder.Services.AddScoped<IGolfCourseRepository, GolfCourseRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

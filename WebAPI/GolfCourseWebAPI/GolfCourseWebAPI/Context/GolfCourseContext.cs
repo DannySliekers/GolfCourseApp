@@ -6,7 +6,7 @@ namespace GolfCourseWebAPI.Context
     public class GolfCourseContext : DbContext
     {
         public DbSet<GolfCourse> GolfCourses { get; set; }
-        public DbSet<Booking> bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<GolfCourseImage> golf_course_images { get; set; }
 
@@ -26,24 +26,36 @@ namespace GolfCourseWebAPI.Context
         {
             base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<GolfCourse>(entity =>
-        {
-            entity.ToTable("golf_courses");
+            modelBuilder.Entity<GolfCourse>(entity =>
+            {
+                entity.ToTable("golf_courses");
 
-            entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
-            entity.Property(e => e.Name).HasColumnName("name");
-            entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Longitude).HasColumnName("longitude");
-            entity.Property(e => e.Latitude).HasColumnName("latitude");
-            entity.Property(e => e.BookingStartTime).HasColumnName("booking_start_time");
-            entity.Property(e => e.BookingLastStartTime).HasColumnName("booking_last_start_time");
-            entity.Property(e => e.StartTimeIntervalMinutes).HasColumnName("start_time_interval_minutes");
-        });
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.Description).HasColumnName("description");
+                entity.Property(e => e.Longitude).HasColumnName("longitude");
+                entity.Property(e => e.Latitude).HasColumnName("latitude");
+                entity.Property(e => e.BookingStartTime).HasColumnName("booking_start_time");
+                entity.Property(e => e.BookingLastStartTime).HasColumnName("booking_last_start_time");
+                entity.Property(e => e.StartTimeIntervalMinutes).HasColumnName("start_time_interval_minutes");
+            });
 
-        modelBuilder.Entity<User>()
+            modelBuilder.Entity<Booking>(entity =>
+            {
+                entity.ToTable("bookings");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
+                entity.Property(e => e.GolfCourseId).HasColumnName("golf_course_id");
+                entity.Property(e => e.StartTime).HasColumnName("start_time");
+            });
+
+            modelBuilder.Entity<User>()
             .Property(u => u.role)
             .HasConversion(
                 v => v.ToString().ToLower(),
