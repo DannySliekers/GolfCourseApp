@@ -8,7 +8,7 @@ namespace GolfCourseWebAPI.Context
         public DbSet<GolfCourse> GolfCourses { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<User> users { get; set; }
-        public DbSet<GolfCourseImage> golf_course_images { get; set; }
+        public DbSet<GolfCourseImage> GolfCourseImages { get; set; }
 
         private readonly string _connectionString;
 
@@ -53,6 +53,17 @@ namespace GolfCourseWebAPI.Context
                 entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
                 entity.Property(e => e.GolfCourseId).HasColumnName("golf_course_id");
                 entity.Property(e => e.StartTime).HasColumnName("start_time");
+            });
+
+            modelBuilder.Entity<GolfCourseImage>(entity =>
+            {
+                entity.ToTable("golf_course_images");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.GolfCourseId).HasColumnName("golf_course_id");
+                entity.Property(e => e.Url).HasColumnName("url");
             });
 
             modelBuilder.Entity<User>()

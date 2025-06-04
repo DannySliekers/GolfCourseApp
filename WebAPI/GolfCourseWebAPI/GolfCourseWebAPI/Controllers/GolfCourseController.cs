@@ -52,6 +52,32 @@ namespace GolfCourseWebAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("image")]
+        [ProducesResponseType(200, Type = typeof(GolfCourseImage))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> AddGolfCourseImage(GolfCourseImage golfCourseImage)
+        {
+            try
+            {
+                var result = await _repository.AddGolfCourseImage(golfCourseImage);
+
+                if (result == -1)
+                {
+                    return NotFound($"Golf course with ID {golfCourseImage.GolfCourseId} does not exist.");
+                }
+
+                return Ok(golfCourseImage);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "Error while inserting golf course image");
+                return BadRequest();
+            }
+        }
+
+
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(GolfCourse))]
         [ProducesResponseType(400)]

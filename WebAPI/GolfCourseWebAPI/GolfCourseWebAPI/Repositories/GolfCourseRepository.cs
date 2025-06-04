@@ -1,5 +1,6 @@
 ﻿using GolfCourseWebAPI.Context;
 using GolfCourseWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GolfCourseWebAPI.Repositories
 {
@@ -17,6 +18,21 @@ namespace GolfCourseWebAPI.Repositories
             _context.GolfCourses.Add(golfCourse);
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<int> AddGolfCourseImage(GolfCourseImage golfCourseImage)
+        {
+            var golfCourse = await _context.GolfCourses
+                .FirstOrDefaultAsync(x => x.Id == golfCourseImage.GolfCourseId);
+
+            if (golfCourse == null)
+            {
+                return -1;
+            }
+
+            _context.GolfCourseImages.Add(golfCourseImage);
+            return await _context.SaveChangesAsync();
+        }
+
 
         public async Task<int> DeleteGolfCourse(int id)
         {
