@@ -20,12 +20,12 @@ namespace GolfCourseWebAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (await _context.users.AnyAsync(u => u.user_name == request.Username))
+            if (await _context.Users.AnyAsync(u => u.UserName == request.Username))
             {
                 return BadRequest(new { Message = "Username is already taken." });
             }
 
-            if (await _context.users.AnyAsync(u => u.email == request.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
                 return BadRequest(new { Message = "Email is already in use." });
             }
@@ -34,13 +34,13 @@ namespace GolfCourseWebAPI.Controllers
 
             var user = new User
             {
-                user_name = request.Username,
-                email = request.Email,
-                hash = passwordHash,
-                role = UserRole.Player
+                UserName = request.Username,
+                Email = request.Email,
+                Hash = passwordHash,
+                Role = UserRole.Player
             };
 
-            _context.users.Add(user);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "User registered successfully." });

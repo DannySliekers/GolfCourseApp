@@ -7,8 +7,9 @@ namespace GolfCourseWebAPI.Context
     {
         public DbSet<GolfCourse> GolfCourses { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<GolfCourseImage> GolfCourseImages { get; set; }
+        public DbSet<BookingsUsers> BookingsUsers { get; set; }
 
         private readonly string _connectionString;
 
@@ -66,12 +67,33 @@ namespace GolfCourseWebAPI.Context
                 entity.Property(e => e.Url).HasColumnName("url");
             });
 
-            modelBuilder.Entity<User>()
-            .Property(u => u.role)
-            .HasConversion(
-                v => v.ToString().ToLower(),
-                v => Enum.Parse<UserRole>(v, true)
-            );
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("users");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.UserName).HasColumnName("user_name");
+                entity.Property(e => e.Email).HasColumnName("email");
+                entity.Property(e => e.Hash).HasColumnName("hash");
+                entity.Property(e => e.AvatarUrl).HasColumnName("avatar_url");
+                entity.Property(e => e.Role).HasColumnName("role").HasConversion(
+                    v => v.ToString().ToLower(),
+                    v => Enum.Parse<UserRole>(v, true)
+                ); 
+            });
+
+            modelBuilder.Entity<BookingsUsers>(entity =>
+            {
+                entity.ToTable("bookings_users");
+
+                entity.HasKey(e => e.UserId);
+                entity.HasKey(e => e.BookingId);
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.BookingId).HasColumnName("booking_id");
+            });
         }
     }
 }
