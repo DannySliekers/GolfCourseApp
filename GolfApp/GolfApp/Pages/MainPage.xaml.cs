@@ -1,4 +1,4 @@
-﻿namespace GolfApp;
+﻿namespace GolfApp.Pages;
 
 public partial class MainPage : ContentPage
 {

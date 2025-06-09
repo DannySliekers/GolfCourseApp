@@ -28,6 +28,8 @@ namespace GolfCourseWebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            _logger.LogInformation("Login request made");
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == request.Username);
 
             if (user == null)

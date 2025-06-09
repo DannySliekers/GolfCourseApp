@@ -11,6 +11,8 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .RegisterViews()
+            .RegisterViewModels()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -34,9 +36,23 @@ public static class MauiProgram
 #else
     builder.Services.AddHttpClient<IAuthService, AuthService>();
 #endif
-        builder.Services.AddSingleton<RegisterViewModel>();
-        builder.Services.AddSingleton<RegisterPage>();
+
 
         return builder.Build();
 	}
+
+    public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<LoginViewModel>();
+        mauiAppBuilder.Services.AddSingleton<RegisterViewModel>();
+        return mauiAppBuilder;
+    }
+
+    public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+    {
+        mauiAppBuilder.Services.AddSingleton<RegisterPage>();
+        mauiAppBuilder.Services.AddSingleton<LoginPage>();
+
+        return mauiAppBuilder;
+    }
 }
