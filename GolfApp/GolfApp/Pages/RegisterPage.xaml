@@ -4,9 +4,6 @@
              xmlns:viewmodels="clr-namespace:GolfApp.ViewModels"
              x:Class="GolfApp.Pages.RegisterPage"
              Title="Register">
-    <ContentPage.BindingContext>
-        <viewmodels:RegisterViewModel />
-    </ContentPage.BindingContext>
     <VerticalStackLayout>
         <ScrollView>
             <VerticalStackLayout Padding="30" Spacing="20"

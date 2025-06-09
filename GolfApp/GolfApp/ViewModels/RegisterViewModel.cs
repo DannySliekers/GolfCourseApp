@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GolfApp.Services;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -8,8 +9,6 @@ namespace GolfApp.ViewModels
 {
     public partial class RegisterViewModel : ObservableObject
     {
-        private readonly HttpClient _httpClient;
-
         [ObservableProperty]
         private string email;
 
@@ -22,19 +21,11 @@ namespace GolfApp.ViewModels
         [ObservableProperty]
         private string statusMessage;
 
-        public RegisterViewModel()
-        {
-            var handler = new HttpClientHandler();
+        private readonly IAuthService _authService;
 
-#if DEBUG
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
-            {
-                if (cert != null && cert.Issuer.Equals("CN=localhost"))
-                    return true;
-                return errors == System.Net.Security.SslPolicyErrors.None;
-            };
-#endif
-            _httpClient = new HttpClient(handler);
+        public RegisterViewModel(IAuthService authService)
+        {
+            _authService = authService;
         }
 
         [RelayCommand]
@@ -48,32 +39,13 @@ namespace GolfApp.ViewModels
                 return;
             }
 
-            var registrationData = new
-            {
-                email = Email,
-                username = Username,
-                password = Password
-            };
-
-            var json = JsonSerializer.Serialize(registrationData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
             try
             {
-                var response = await _httpClient.PostAsync("https://10.0.2.2:7129/api/auth/register", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    StatusMessage = "Registration successful!";
-                }
-                else
-                {
-                    StatusMessage = $"Registration failed: {response.ReasonPhrase}";
-                }
+                var success = await _authService.RegisterAsync(Email, Username, Password);
+                StatusMessage = success ? "Registration successful!" : "Registration failed.";
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
                 StatusMessage = $"Error: {ex.Message}";
             }
         }

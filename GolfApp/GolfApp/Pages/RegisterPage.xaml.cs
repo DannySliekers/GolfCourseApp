@@ -1,14 +1,12 @@
+using GolfApp.ViewModels;
+
 namespace GolfApp.Pages;
 
 public partial class RegisterPage : ContentPage
 {
-	public RegisterPage()
+	public RegisterPage(RegisterViewModel viewModel)
 	{
 		InitializeComponent();
-	}
-
-    private void OnRegisterClicked(object sender, EventArgs e)
-    {
-
+        BindingContext = viewModel;
     }
 }
