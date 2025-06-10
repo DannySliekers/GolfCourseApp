@@ -1,24 +1,22 @@
-﻿namespace GolfApp.Pages;
+﻿using GolfApp.ViewModels;
+
+namespace GolfApp.Pages;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private readonly HomeViewModel _viewModel;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage(HomeViewModel viewModel)
+    {
+        InitializeComponent();
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
+    }
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.InitializeAsync();
+    }
 }
 
