@@ -7,19 +7,39 @@
     xmlns:pages="clr-namespace:GolfApp.Pages"
     Shell.FlyoutBehavior="Disabled">
 
-
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="Login" />
-    
+
     <ShellContent
         Title="Register"
         ContentTemplate="{DataTemplate pages:RegisterPage}"
         Route="Register" />
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate pages:MainPage}"
+            Icon="home.png"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Tee Times"
+            ContentTemplate="{DataTemplate pages:MainPage}"
+            Icon="golf_course.png"
+            Route="Search" />
+
+        <ShellContent
+            Title="Map"
+            ContentTemplate="{DataTemplate pages:MainPage}"
+            Icon="map.png"
+            Route="Map" />
+
+        <ShellContent
+            Title="Profile"
+            ContentTemplate="{DataTemplate pages:MainPage}"
+            Icon="profile.png"
+            Route="Profile" />
+    </TabBar>
 </Shell>
