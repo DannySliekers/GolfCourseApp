@@ -9,7 +9,7 @@ namespace GolfCourseWebAPI.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
-        private readonly string _imageDirectory = Path.Combine(Directory.GetCurrentDirectory(), "UploadedImages");
+        private readonly string _imageDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "UploadedImages");
 
         public UploadController()
         {
