@@ -1,4 +1,5 @@
-﻿using GolfApp.ViewModels;
+﻿using GolfApp.Models;
+using GolfApp.ViewModels;
 
 namespace GolfApp.Pages;
 
@@ -17,6 +18,20 @@ public partial class MainPage : ContentPage
     {
         base.OnAppearing();
         await _viewModel.InitializeAsync();
+    }
+
+    private async void OnGolfCourseSelected(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is GolfCourse selectedCourse)
+        {
+            ((CollectionView)sender).SelectedItem = null;
+
+            await Shell.Current.GoToAsync("GolfCourseDetails",
+                new Dictionary<string, object>
+                {
+                    { "GolfCourse", selectedCourse }
+                });
+        }
     }
 }
 
