@@ -23,8 +23,8 @@
                             Grid.Column="0"
                             Aspect="AspectFill"
                             HeightRequest="200"
-                            Source="dotnet_bot.png"
-                            WidthRequest="200" />
+                            Source="{Binding FirstImage}"
+                            WidthRequest="180" />
 
 
                         <VerticalStackLayout Grid.Column="1" Spacing="10">

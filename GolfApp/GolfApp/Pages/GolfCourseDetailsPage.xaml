@@ -6,12 +6,18 @@
     Title=""
     Shell.TabBarIsVisible="False">
     <VerticalStackLayout>
-        <Image
-            Grid.Column="0"
-            Aspect="AspectFill"
-            HeightRequest="300"
-            Source="dotnet_bot.png"
-            WidthRequest="300" />
+
+        <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding Images}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="80"
+                        Source="{Binding .}"
+                        WidthRequest="120" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
         <Label Text="{Binding GolfCourse.Name}" />
         <Label Text="{Binding GolfCourse.Description}" />
         <Button Background="Black" Text="Book a Tee Time" />

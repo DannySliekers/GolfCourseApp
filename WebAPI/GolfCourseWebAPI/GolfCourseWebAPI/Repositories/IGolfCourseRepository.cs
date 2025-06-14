@@ -10,5 +10,6 @@ namespace GolfCourseWebAPI.Repositories
         Task<int> AddGolfCourseImage(GolfCourseImage golfCourse);
         Task<int> UpdateGolfCourse(GolfCourse golfCourse);
         Task<int> DeleteGolfCourse(int id);
+        List<string> GetImageUrls(int id);
     }
 }

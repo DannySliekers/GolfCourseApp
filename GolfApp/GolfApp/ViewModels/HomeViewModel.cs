@@ -14,11 +14,14 @@ namespace GolfApp.ViewModels
     public partial class HomeViewModel : ObservableObject
     {
         public ObservableCollection<GolfCourse> GolfCourses { get; set; } = new();
+        public ImageSource FirstImage { get; set; }
         private readonly IGolfCourseService _golfCourseService;
+        private readonly IImageService _imageService;
 
-        public HomeViewModel(IGolfCourseService golfCourseService)
+        public HomeViewModel(IGolfCourseService golfCourseService, IImageService imageService)
         {
             _golfCourseService = golfCourseService;
+            _imageService = imageService;
         }
 
         public async Task InitializeAsync()
@@ -29,6 +32,7 @@ namespace GolfApp.ViewModels
                 GolfCourses.Clear();
                 foreach (var course in courses)
                 {
+                    await LoadFirstImageAsync(course);
                     GolfCourses.Add(course);
                 }
             }
@@ -36,6 +40,12 @@ namespace GolfApp.ViewModels
             {
                 Debug.WriteLine($"Failed to load golf courses: {ex.Message}");
             }
+        }
+
+        public async Task LoadFirstImageAsync(GolfCourse golfCourse)
+        {
+            var imageSources = await _imageService.GetImagesAsync(golfCourse.Id);
+            golfCourse.FirstImage = imageSources.FirstOrDefault();
         }
     }
 }

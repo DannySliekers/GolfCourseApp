@@ -108,5 +108,11 @@ namespace GolfCourseWebAPI.Controllers
         {
             return _repository.Get(id);
         }
+
+        [HttpGet("image/{golfCourseId}")]
+        public List<string> GetGolfCourseImageUrls(int golfCourseId)
+        {
+            return _repository.GetImageUrls(golfCourseId);
+        }
     }
 }

@@ -11,5 +11,6 @@
         public TimeOnly BookingStartTime { get; set; }
         public TimeOnly BookingLastStartTime { get; set; }
         public int StartTimeIntervalMinutes { get; set; }
+        public ImageSource FirstImage { get; set; }
     }
 }

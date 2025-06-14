@@ -3,7 +3,6 @@ using GolfApp.Services;
 using GolfApp.ViewModels;
 
 namespace GolfApp;
-
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
@@ -47,6 +46,7 @@ public static class MauiProgram
 
         mauiAppBuilder.Services.AddCustomHttpClient<IAuthService, AuthService>(baseUrl);
         mauiAppBuilder.Services.AddCustomHttpClient<IGolfCourseService, GolfCourseService>(baseUrl);
+        mauiAppBuilder.Services.AddCustomHttpClient<IImageService, ImageService>(baseUrl);
 
         return mauiAppBuilder;
     }

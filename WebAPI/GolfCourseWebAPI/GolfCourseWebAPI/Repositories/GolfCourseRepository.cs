@@ -51,6 +51,11 @@ namespace GolfCourseWebAPI.Repositories
             return _context.GolfCourses.ToList();
         }
 
+        public List<string> GetImageUrls(int id)
+        {
+            return _context.GolfCourseImages.Where(x => x.GolfCourseId == id).Select(image => image.Url).ToList();
+        }
+
         public async Task<int> UpdateGolfCourse(GolfCourse golfCourse)
         {
             _context.GolfCourses.Update(golfCourse);

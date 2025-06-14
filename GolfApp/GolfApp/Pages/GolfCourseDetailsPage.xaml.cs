@@ -17,6 +17,14 @@ public partial class GolfCourseDetailsPage : ContentPage
 
     public GolfCourse GolfCourse
     {
-        set => _viewModel.GolfCourse = value;
+        set
+        {
+            _viewModel.GolfCourse = value;
+
+            if (value != null)
+            {
+                _ = _viewModel.LoadImagesAsync(value.Id);
+            }
+        }
     }
 }
