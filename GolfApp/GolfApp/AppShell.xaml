@@ -26,7 +26,7 @@
 
         <ShellContent
             Title="Tee Times"
-            ContentTemplate="{DataTemplate pages:MainPage}"
+            ContentTemplate="{DataTemplate pages:BookingsPage}"
             Icon="golf_course.png"
             Route="Search" />
 
