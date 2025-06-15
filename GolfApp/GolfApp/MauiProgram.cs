@@ -28,6 +28,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<RegisterViewModel>();
         mauiAppBuilder.Services.AddSingleton<HomeViewModel>();
         mauiAppBuilder.Services.AddTransient<GolfCourseDetailsViewModel>();
+        mauiAppBuilder.Services.AddTransient<AddGolfCourseViewModel>();
         return mauiAppBuilder;
     }
 
@@ -37,6 +38,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<LoginPage>();
         mauiAppBuilder.Services.AddSingleton<MainPage>();
         mauiAppBuilder.Services.AddTransient<GolfCourseDetailsPage>();
+        mauiAppBuilder.Services.AddTransient<AddGolfCoursePage>();
         return mauiAppBuilder;
     }
 

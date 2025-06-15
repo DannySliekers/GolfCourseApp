@@ -18,6 +18,7 @@ public partial class MainPage : ContentPage
     {
         base.OnAppearing();
         await _viewModel.InitializeAsync();
+        await _viewModel.LoadUserRoleAndSetVisibility();
     }
 
     private async void OnGolfCourseSelected(object sender, SelectionChangedEventArgs e)
@@ -32,6 +33,11 @@ public partial class MainPage : ContentPage
                     { "GolfCourse", selectedCourse }
                 });
         }
+    }
+
+    private async void OnFloatingButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("AddGolfCourse");
     }
 }
 

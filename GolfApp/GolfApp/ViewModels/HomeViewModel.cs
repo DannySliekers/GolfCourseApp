@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,8 @@ namespace GolfApp.ViewModels
     public partial class HomeViewModel : ObservableObject
     {
         public ObservableCollection<GolfCourse> GolfCourses { get; set; } = new();
+        [ObservableProperty]
+        private bool showAddButton;
         public ImageSource FirstImage { get; set; }
         private readonly IGolfCourseService _golfCourseService;
         private readonly IImageService _imageService;
@@ -46,6 +50,24 @@ namespace GolfApp.ViewModels
         {
             var imageSources = await _imageService.GetImagesAsync(golfCourse.Id);
             golfCourse.FirstImage = imageSources.FirstOrDefault();
+        }
+
+        public async Task LoadUserRoleAndSetVisibility()
+        {
+            var token = await SecureStorage.GetAsync("jwt");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                var role = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role || c.Type == "role")?.Value;
+
+                ShowAddButton = role != "Player";
+            }
+            else
+            {
+                ShowAddButton = false;
+            }
         }
     }
 }

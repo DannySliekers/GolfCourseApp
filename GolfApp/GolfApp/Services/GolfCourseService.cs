@@ -1,6 +1,8 @@
 ﻿using GolfApp.Models;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 
 namespace GolfApp.Services
 {
@@ -11,6 +13,19 @@ namespace GolfApp.Services
         public GolfCourseService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public async Task<bool> AddGolfCourseAsync(GolfCourse course)
+        {
+            var token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var json = JsonSerializer.Serialize(course);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/api/golfcourse", content);
+
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<List<GolfCourse>> GetAllGolfCoursesAsync()

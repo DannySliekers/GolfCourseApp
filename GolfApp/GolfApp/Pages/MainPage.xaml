@@ -3,53 +3,66 @@
     x:Class="GolfApp.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid>
+        <CollectionView
+            ItemsSource="{Binding GolfCourses}"
+            SelectionChanged="OnGolfCourseSelected"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="5"
+                        Padding="10"
+                        BackgroundColor="LightGray">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.Column="0"
+                                Aspect="AspectFill"
+                                HeightRequest="200"
+                                Source="{Binding FirstImage}"
+                                WidthRequest="180" />
 
-    <CollectionView
-        ItemsSource="{Binding GolfCourses}"
-        SelectionChanged="OnGolfCourseSelected"
-        SelectionMode="Single">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Border
-                    Margin="5"
-                    Padding="10"
-                    BackgroundColor="LightGray">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Column="0"
-                            Aspect="AspectFill"
-                            HeightRequest="200"
-                            Source="{Binding FirstImage}"
-                            WidthRequest="180" />
 
+                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Name}"
+                                    VerticalOptions="Start" />
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="0,0,0,20"
+                                    FontSize="Small"
+                                    Text="{Binding Description}" />
 
-                        <VerticalStackLayout Grid.Column="1" Spacing="10">
-                            <Label
-                                FontAttributes="Bold"
-                                HorizontalOptions="Start"
-                                Text="{Binding Name}"
-                                VerticalOptions="Start" />
-                            <Label
-                                Grid.Column="1"
-                                Margin="0,0,0,20"
-                                FontSize="Small"
-                                Text="{Binding Description}" />
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="Black"
+                                    Text="Book Tee time"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
 
-                            <Button
-                                Grid.Column="1"
-                                BackgroundColor="Black"
-                                Text="Book Tee time"
-                                TextColor="White" />
-                        </VerticalStackLayout>
-
-                    </Grid>
-                </Border>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
-
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Margin="20"
+            BackgroundColor="Black"
+            Clicked="OnFloatingButtonClicked"
+            CornerRadius="30"
+            FontSize="24"
+            HeightRequest="60"
+            HorizontalOptions="End"
+            IsVisible="{Binding ShowAddButton}"
+            Text="+"
+            TextColor="White"
+            VerticalOptions="End"
+            WidthRequest="60" />
+    </Grid>
 </ContentPage>
