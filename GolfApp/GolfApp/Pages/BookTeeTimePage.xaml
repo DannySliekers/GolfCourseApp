@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GolfApp.Pages.BookTeeTimePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Title="">
+    <Grid Padding="20" RowDefinitions="Auto, *">
+        <Label Grid.Row="0" Text="Select a Date:" />
+
+        <DatePicker
+            Grid.Row="0"
+            Margin="0,20,0,20"
+            Date="{Binding SelectedDate}"
+            Format="D"
+            MaximumDate="{Binding MaxSelectableDate}"
+            MinimumDate="{x:Static sys:DateTime.Today}" />
+
+        <CollectionView
+            Grid.Row="1"
+            Margin="10"
+            ItemsLayout="VerticalGrid, 3"
+            ItemsSource="{Binding AvailableTeeTimes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="5"
+                        Padding="10"
+                        BackgroundColor="LightGray"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill">
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="{Binding}" />
+                            <Button
+                                Command="{Binding BindingContext.BookTimeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                CommandParameter="{Binding}"
+                                Text="Book" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

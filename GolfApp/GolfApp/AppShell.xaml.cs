@@ -10,5 +10,6 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute("GolfCourseDetails", typeof(GolfCourseDetailsPage));
         Routing.RegisterRoute("AddGolfCourse", typeof(AddGolfCoursePage));
+        Routing.RegisterRoute("BookTeeTime", typeof(BookTeeTimePage));
     }
 }

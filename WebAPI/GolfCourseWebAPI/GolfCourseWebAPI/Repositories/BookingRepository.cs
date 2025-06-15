@@ -14,7 +14,6 @@ namespace GolfCourseWebAPI.Repositories
 
         public async Task<int> AddBooking(Booking booking)
         {
-            booking.StartTime = DateTime.SpecifyKind(booking.StartTime.ToUniversalTime(), DateTimeKind.Utc);
             _context.Bookings.Add(booking);
             return await _context.SaveChangesAsync();
         }
@@ -38,7 +37,6 @@ namespace GolfCourseWebAPI.Repositories
 
         public async Task<int> UpdateBooking(Booking booking)
         {
-            booking.StartTime = DateTime.SpecifyKind(booking.StartTime.ToUniversalTime(), DateTimeKind.Utc);
             _context.Bookings.Update(booking);
             return await _context.SaveChangesAsync();
         }

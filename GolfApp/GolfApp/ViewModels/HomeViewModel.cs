@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GolfApp.Models;
 using GolfApp.Services;
 using System;
@@ -26,6 +27,19 @@ namespace GolfApp.ViewModels
         {
             _golfCourseService = golfCourseService;
             _imageService = imageService;
+        }
+
+        [RelayCommand]
+        private async Task BookTeeTimeAsync(object sender)
+        {
+            if (sender is GolfCourse golfCourse)
+            {
+                await Shell.Current.GoToAsync("BookTeeTime",
+                new Dictionary<string, object>
+                {
+                    { "GolfCourse", golfCourse }
+                });
+            }
         }
 
         public async Task InitializeAsync()
