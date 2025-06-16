@@ -44,7 +44,7 @@ namespace GolfCourseWebAPI.Controllers
                 return Unauthorized(new { Message = "Invalid username or password." });
             }
 
-            var token = GenerateJwtToken(user.UserName, user.Role);
+            var token = GenerateJwtToken(user);
 
             return Ok(new { Token = token });
         }
@@ -88,13 +88,14 @@ namespace GolfCourseWebAPI.Controllers
             }
         }
 
-        private string GenerateJwtToken(string username, UserRole role)
+        private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-very-strong-secret-keyqwqwwqqwqwqw"));

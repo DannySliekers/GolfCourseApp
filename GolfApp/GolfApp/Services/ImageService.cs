@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using GolfApp.Helpers;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace GolfApp.Services
@@ -29,27 +30,7 @@ namespace GolfApp.Services
                 return new List<ImageSource>();
             }
 
-
-
-            return urls.Select(url => ImageSource.FromUri(new Uri(TransformUrl(url)))).ToList();
-        }
-
-        private string TransformUrl(string originalUrl)
-        {
-            if (string.IsNullOrEmpty(originalUrl))
-            {
-                return originalUrl;
-            }
-
-            const string oldBase = "https://localhost:7129";
-            const string newBase = "http://10.0.2.2:5135";
-
-            if (originalUrl.StartsWith(oldBase))
-            {
-                return newBase + originalUrl.Substring(oldBase.Length);
-            }
-
-            return originalUrl;
+            return urls.Select(url => ImageSource.FromUri(new Uri(UrlHelpers.TransformUrl(url)))).ToList();
         }
     }
 }

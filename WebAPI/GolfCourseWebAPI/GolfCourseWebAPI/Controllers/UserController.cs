@@ -36,5 +36,38 @@ namespace GolfCourseWebAPI.Controllers
 
             return Ok(new { message = "Role updated successfully." });
         }
+
+        [HttpPost("set-avatar")]
+        public async Task<IActionResult> SetAvatar(int userId, string avatarUrl)
+        {
+            if (string.IsNullOrEmpty(avatarUrl))
+            {
+                return BadRequest("Invalid avatarUrl value.");
+            }
+
+            var result = await _userRepository.SetAvatar(userId, avatarUrl);
+
+            if (result == 0)
+            {
+                return NotFound($"User with ID {userId} not found.");
+            }
+
+            return Ok(new { message = "Avatar URL updated successfully." });
+        }
+
+        [HttpGet("{id}")]
+        public UserResponse GetUser(int id)
+        {
+            var user = _userRepository.GetUser(id);
+            var userResponse = new UserResponse()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                AvatarUrl = user.AvatarUrl
+            };
+
+            return userResponse;
+        }
     }
 }

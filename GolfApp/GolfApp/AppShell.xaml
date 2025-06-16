@@ -38,7 +38,7 @@
 
         <ShellContent
             Title="Profile"
-            ContentTemplate="{DataTemplate pages:MainPage}"
+            ContentTemplate="{DataTemplate pages:UserProfilePage}"
             Icon="profile.png"
             Route="Profile" />
     </TabBar>

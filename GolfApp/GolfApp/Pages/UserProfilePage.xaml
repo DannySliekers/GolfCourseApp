@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GolfApp.Pages.UserProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="UserProfilePage">
+    <VerticalStackLayout>
+        <!--  Avatar  -->
+        <Image
+            Aspect="AspectFill"
+            HeightRequest="120"
+            HorizontalOptions="Center"
+            Source="{Binding User.AvatarUrl}"
+            VerticalOptions="Start"
+            WidthRequest="120">
+            <Image.Clip>
+                <EllipseGeometry
+                    Center="60,60"
+                    RadiusX="60"
+                    RadiusY="60" />
+            </Image.Clip>
+        </Image>
+        <Button
+            Background="Black"
+            Command="{Binding ChangeAvatarCommand}"
+            Text="Change Avatar" />
+        <!--  User Name  -->
+        <Label
+            FontAttributes="Bold"
+            FontSize="24"
+            HorizontalOptions="Center"
+            Text="{Binding User.UserName}" />
+
+        <!--  Email  -->
+        <Label
+            FontSize="16"
+            HorizontalOptions="Center"
+            Text="{Binding User.Email}"
+            TextColor="Gray" />
+    </VerticalStackLayout>
+</ContentPage>
