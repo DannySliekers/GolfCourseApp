@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GolfApp.Helpers;
 using GolfApp.Models;
 using GolfApp.Services;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GolfApp.ViewModels
@@ -14,17 +17,55 @@ namespace GolfApp.ViewModels
 
         public TimeSpan FirstTeeTime { get; set; }
         public TimeSpan LastTeeTime { get; set; }
+        public ObservableCollection<SelectedImage> SelectedImages { get; set; } = new();
 
         [ObservableProperty]
         private int teeTimeIntervalMinutes;
 
-        public ICommand AddGolfCourse { get; set; }
-
         private readonly IGolfCourseService _golfCourseService;
+        private readonly IUploadService _uploadService;
 
-        public AddGolfCourseViewModel(IGolfCourseService golfCourseService)
+        public AddGolfCourseViewModel(IGolfCourseService golfCourseService, IUploadService uploadService)
         {
             _golfCourseService = golfCourseService;
+            _uploadService = uploadService;
+        }
+
+        [RelayCommand]
+        private async Task AddImageAsync()
+        {
+            try
+            {
+                var result = await FilePicker.PickAsync(new PickOptions
+                {
+                    PickerTitle = "Select an image",
+                    FileTypes = FilePickerFileType.Images
+                });
+
+                if (result != null)
+                {
+                    using var stream = await result.OpenReadAsync();
+                    using var memoryStream = new MemoryStream();
+                    await stream.CopyToAsync(memoryStream);
+                    memoryStream.Position = 0;
+
+                    // Now pass a function that re-opens a stream from the byte array
+                    var imageBytes = memoryStream.ToArray();
+
+                    var image = new SelectedImage
+                    {
+                        ImageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes)),
+                        ImageBytes = imageBytes,
+                        FileName = result.FileName
+                    };
+
+                    SelectedImages.Add(image);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Unable to pick image: {ex.Message}", "OK");
+            }
         }
 
         [RelayCommand]
@@ -54,6 +95,20 @@ namespace GolfApp.ViewModels
                 return;
             }
 
+            if (SelectedImages.Count < 1)
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Add at least 1 image.", "OK");
+                return;
+            }
+
+            string userId = await TokenHelper.GetUserId();
+
+            if (!int.TryParse(userId, out int parsedUserId))
+            {
+                await Shell.Current.DisplayAlert("Error", "Invalid user ID.", "OK");
+                return;
+            }
+
             var newCourse = new GolfCourse
             {
                 Name = Name,
@@ -61,22 +116,44 @@ namespace GolfApp.ViewModels
                 BookingStartTime = TimeOnly.FromTimeSpan(FirstTeeTime),
                 BookingLastStartTime = TimeOnly.FromTimeSpan(LastTeeTime),
                 StartTimeIntervalMinutes = TeeTimeIntervalMinutes,
-                OwnerId = 11,
+                OwnerId = parsedUserId,
                 Longitude = 0,
                 Latitude = 0
             };
 
-            var success = await _golfCourseService.AddGolfCourseAsync(newCourse);
+            int golfCourseId = await _golfCourseService.AddGolfCourseAsync(newCourse);
 
-            if (success)
+            if (golfCourseId != 0)
             {
+                List<string> urls = await UploadImagesAsync();
+
+                foreach (var url in urls)
+                {
+                    string localHostUrl = UrlHelpers.TransformToLocalHost(url);
+                    await _golfCourseService.AddImageToGolfCourseAsync(golfCourseId, localHostUrl);
+                }
+
                 await Shell.Current.DisplayAlert("Success", "Golf course added successfully.", "OK");
-                // Optionally clear fields or navigate
+                await Shell.Current.GoToAsync("//MainPage");
             }
             else
             {
                 await Shell.Current.DisplayAlert("Error", "Failed to add golf course.", "OK");
             }
+        }
+
+        private async Task<List<string>> UploadImagesAsync()
+        {
+            List<string> urls = [];
+
+            foreach (SelectedImage image in SelectedImages)
+            {
+                using var stream = new MemoryStream(image.ImageBytes);
+                string url = await _uploadService.UploadFileAsync(stream, image.FileName);
+                urls.Add(url);
+            }
+
+            return urls;
         }
     }
 }

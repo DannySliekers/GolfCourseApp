@@ -28,6 +28,27 @@
                 Minimum="1"
                 Value="{Binding TeeTimeIntervalMinutes}" />
 
+
+            <CollectionView ItemsLayout="VerticalGrid, 2" ItemsSource="{Binding SelectedImages}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="5"
+                            BorderColor="LightGray"
+                            HasShadow="False">
+                            <Image
+                                Aspect="AspectFill"
+                                HeightRequest="150"
+                                Source="{Binding ImageSource}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button
+                Background="Black"
+                Command="{Binding AddImageCommand}"
+                Text="Add Image" />
             <Button
                 Background="Black"
                 Command="{Binding AddGolfCourseCommand}"

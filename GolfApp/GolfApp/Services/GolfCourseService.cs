@@ -15,7 +15,7 @@ namespace GolfApp.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> AddGolfCourseAsync(GolfCourse course)
+        public async Task<int> AddGolfCourseAsync(GolfCourse course)
         {
             var token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -24,6 +24,31 @@ namespace GolfApp.Services
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync("/api/golfcourse", content);
+
+            var uploadedCourse = await response.Content.ReadFromJsonAsync<GolfCourse>();
+
+            if (uploadedCourse == null)
+            {
+                return 0;
+            }
+
+            return uploadedCourse.Id;
+        }
+
+        public async Task<bool> AddImageToGolfCourseAsync(int id, string imageUrl)
+        {
+            var token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var body = new
+            {
+                golfCourseId = id,
+                url = imageUrl
+            };
+
+            var json = JsonSerializer.Serialize(body);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/golfcourse/image", content);
 
             return response.IsSuccessStatusCode;
         }

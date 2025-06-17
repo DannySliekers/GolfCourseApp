@@ -1,4 +1,5 @@
-﻿using GolfApp.Models;
+﻿using GolfApp.Helpers;
+using GolfApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -47,9 +48,7 @@ namespace GolfApp.Services
         public async Task<bool> SetUserAvatar(string avatarUrl)
         {
             var token = await SecureStorage.Default.GetAsync("jwt");
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var id = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var id = await TokenHelper.GetUserId();
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
