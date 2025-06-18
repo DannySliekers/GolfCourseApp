@@ -53,6 +53,19 @@ namespace GolfCourseWebAPI.Controllers
             }
         }
 
+        [HttpPost("bookings/{bookingId}/users/{userId}")]
+        public async Task<IActionResult> AddUserToBooking([FromRoute] int bookingId, [FromRoute] int userId)
+        {
+            var result = await _repository.AddUserToBooking(bookingId, userId);
+
+            if (result == 0)
+            {
+                return BadRequest("Booking already has maximum number of users.");
+            }
+
+            return Ok("User added to booking.");
+        }
+
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(Booking))]
         [ProducesResponseType(400)]

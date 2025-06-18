@@ -30,10 +30,13 @@ namespace GolfApp.ViewModels
             _bookingService = bookingService;
         }
 
-        public void GenerateTeeTimes(TimeOnly start, TimeOnly end, int intervalMinutes)
+        public async Task GenerateTeeTimes(TimeOnly start, TimeOnly end, int intervalMinutes)
         {
             var list = new ObservableCollection<TimeOnly>();
             var time = start;
+            List<Booking> bookings = await _bookingService.GetAllBookingAsync();
+            
+
 
             while (time <= end)
             {

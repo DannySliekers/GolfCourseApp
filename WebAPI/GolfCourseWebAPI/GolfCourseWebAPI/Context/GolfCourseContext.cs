@@ -50,7 +50,7 @@ namespace GolfCourseWebAPI.Context
 
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id").ValueGeneratedOnAdd();
                 entity.Property(e => e.CreatedByUserId).HasColumnName("created_by_user_id");
                 entity.Property(e => e.GolfCourseId).HasColumnName("golf_course_id");
                 entity.Property(e => e.StartTime).HasColumnName("start_time");
