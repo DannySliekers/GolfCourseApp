@@ -53,7 +53,7 @@ namespace GolfCourseWebAPI.Controllers
             }
         }
 
-        [HttpPost("bookings/{bookingId}/users/{userId}")]
+        [HttpPost("{bookingId}/users/{userId}")]
         public async Task<IActionResult> AddUserToBooking([FromRoute] int bookingId, [FromRoute] int userId)
         {
             var result = await _repository.AddUserToBooking(bookingId, userId);
@@ -81,6 +81,12 @@ namespace GolfCourseWebAPI.Controllers
                 _logger.LogError(exception, "Error while updating Booking");
                 return BadRequest();
             }
+        }
+
+        [HttpGet("{bookingId}/users")]
+        public List<int> GetBookingUserIds(int bookingId)
+        {
+            return _repository.GetUserIds(bookingId).ToList();
         }
 
         [HttpGet]

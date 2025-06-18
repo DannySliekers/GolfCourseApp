@@ -6,6 +6,7 @@ namespace GolfCourseWebAPI.Repositories
     {
         IEnumerable<Booking> GetAll();
         Booking Get(int id);
+        IEnumerable<int> GetUserIds(int bookingId);
         Task<int> AddBooking(Booking booking);
         Task<int> AddUserToBooking(int bookingId, int userId);
         Task<int> UpdateBooking(Booking booking);

@@ -65,6 +65,11 @@ namespace GolfCourseWebAPI.Repositories
             return _context.Bookings.ToList();
         }
 
+        public IEnumerable<int> GetUserIds(int bookingId)
+        {
+            return _context.BookingsUsers.Where(x => x.BookingId == bookingId).Select(x => x.UserId);
+        }
+
         public async Task<int> UpdateBooking(Booking booking)
         {
             booking.StartTime = DateTime.SpecifyKind(booking.StartTime.ToUniversalTime(), DateTimeKind.Utc);
