@@ -33,7 +33,28 @@
                             <Label
                                 FontAttributes="Bold"
                                 HorizontalOptions="Center"
-                                Text="{Binding}" />
+                                Text="{Binding Time}" />
+
+                            <HorizontalStackLayout Padding="0" Spacing="4">
+                                <CollectionView
+                                    HeightRequest="20"
+                                    ItemsLayout="HorizontalList"
+                                    ItemsSource="{Binding UserSquares}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame
+                                                Padding="0"
+                                                BackgroundColor="{Binding .}"
+                                                BorderColor="Black"
+                                                CornerRadius="3"
+                                                HasShadow="False"
+                                                HeightRequest="20"
+                                                WidthRequest="20" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </HorizontalStackLayout>
+
                             <Button
                                 Command="{Binding BindingContext.BookTimeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                 CommandParameter="{Binding}"

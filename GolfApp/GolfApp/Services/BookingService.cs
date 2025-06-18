@@ -1,4 +1,5 @@
-﻿using GolfApp.Models;
+﻿using GolfApp.Helpers;
+using GolfApp.Models;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -17,23 +18,34 @@ namespace GolfApp.Services
 
         public async Task<bool> AddBookingAsync(Booking booking)
         {
-            var token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var json = JsonSerializer.Serialize(booking);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("/api/booking", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("/api/booking", content);
 
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddUserToBooking(int bookingId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string userId = await TokenHelper.GetUserId();
+
+            HttpResponseMessage response = await _httpClient.PostAsync($"/api/booking/{bookingId}/users/{userId}", null);
+            
             return response.IsSuccessStatusCode;
         }
 
         public async Task<List<Booking>> GetAllBookingAsync()
         {
-            var token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.GetAsync("/api/booking");
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/booking");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -48,6 +60,23 @@ namespace GolfApp.Services
             }
 
             return bookings;
+        }
+
+        public async Task<List<int>> GetUserIdsForBookingAsync(int bookingId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/booking/{bookingId}/users");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<int>();
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var userIds = JsonSerializer.Deserialize<List<int>>(content);
+            return userIds ?? new List<int>();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GolfApp.Helpers;
 using GolfApp.Models;
 using GolfApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace GolfApp.ViewModels
         public GolfCourse GolfCourse { get; set; }
 
         [ObservableProperty]
-        private ObservableCollection<TimeOnly> availableTeeTimes;
+        private ObservableCollection<DisplayedBooking> availableTeeTimes;
 
         private readonly IBookingService _bookingService;
 
@@ -30,17 +32,38 @@ namespace GolfApp.ViewModels
             _bookingService = bookingService;
         }
 
+        partial void OnSelectedDateChanged(DateTime oldValue, DateTime newValue)
+        {
+            _ = GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
+        }
+
         public async Task GenerateTeeTimes(TimeOnly start, TimeOnly end, int intervalMinutes)
         {
-            var list = new ObservableCollection<TimeOnly>();
+            var list = new ObservableCollection<DisplayedBooking>();
             var time = start;
             List<Booking> bookings = await _bookingService.GetAllBookingAsync();
-            
-
+            var amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
             while (time <= end)
             {
-                list.Add(time);
+                var displayBooking = new DisplayedBooking();
+                var correspondingBooking = bookings
+                    .Where(x => x.StartTime.Date == selectedDate.Date &&
+                                TimeOnly.FromDateTime(TimeZoneInfo.ConvertTimeFromUtc(x.StartTime, amsterdamTimeZone)) == time)
+                    .FirstOrDefault();
+
+                if (correspondingBooking != null)
+                {
+                    displayBooking.BookingId = correspondingBooking.Id;
+
+                    var users = await _bookingService.GetUserIdsForBookingAsync(correspondingBooking.Id);
+                    displayBooking.UserCount = users.Count;
+
+                }
+
+                displayBooking.Time = time;
+
+                list.Add(displayBooking);
                 time = time.AddMinutes(intervalMinutes);
             }
 
@@ -48,28 +71,51 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task BookTimeAsync(TimeOnly time)
+        private async Task BookTimeAsync(DisplayedBooking booking)
         {
-            var fullDate = SelectedDate + time.ToTimeSpan();
+            var fullDate = SelectedDate + booking.Time.ToTimeSpan();
             fullDate = DateTime.SpecifyKind(fullDate, DateTimeKind.Unspecified);
+            string userIdToken = await TokenHelper.GetUserId();
 
-            var booking = new Booking()
+            if (!Int32.TryParse(userIdToken, out int userId))
             {
-                GolfCourseId = GolfCourse.Id,
-                StartTime = fullDate,
-                CreatedByUserId = 11
-            };
+                await Shell.Current.DisplayAlert("Error", "Failed getting User ID.", "OK");
+            }
 
-            var success = await _bookingService.AddBookingAsync(booking);
-
-            if (success)
+            if (booking.UserCount > 0)
             {
-                await Shell.Current.DisplayAlert("Success", "Booking added successfully.", "OK");
-                // Optionally clear fields or navigate
+                var success = await _bookingService.AddUserToBooking(booking.BookingId);
+
+                if (success)
+                {
+                    await Shell.Current.DisplayAlert("Success", "Added user to booking.", "OK");
+                    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to add user to booking.", "OK");
+                }
             }
             else
             {
-                await Shell.Current.DisplayAlert("Error", "Failed to add booking.", "OK");
+                var newBooking = new Booking()
+                {
+                    GolfCourseId = GolfCourse.Id,
+                    StartTime = fullDate,
+                    CreatedByUserId = userId
+                };
+
+                var success = await _bookingService.AddBookingAsync(newBooking);
+
+                if (success)
+                {
+                    await Shell.Current.DisplayAlert("Success", "Booking added successfully.", "OK");
+                    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to add booking.", "OK");
+                }
             }
         }
     }
