@@ -5,5 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
     Title="MapPage">
-    <maps:Map x:Name="map" />
+    <maps:Map
+        x:Name="map"
+        IsShowingUser="True"
+        ItemsSource="{Binding Pins}">
+        <maps:Map.ItemTemplate>
+            <DataTemplate>
+                <maps:Pin
+                    Address="{Binding Address}"
+                    Label="{Binding Label}"
+                    Location="{Binding Location}" />
+            </DataTemplate>
+        </maps:Map.ItemTemplate>
+    </maps:Map>
 </ContentPage>
