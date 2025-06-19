@@ -32,7 +32,7 @@
 
         <ShellContent
             Title="Map"
-            ContentTemplate="{DataTemplate pages:MainPage}"
+            ContentTemplate="{DataTemplate pages:MapPage}"
             Icon="map.png"
             Route="Map" />
 

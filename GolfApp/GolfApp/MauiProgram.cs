@@ -13,6 +13,7 @@ public static class MauiProgram
             .RegisterViews()
             .RegisterViewModels()
             .RegisterServices()
+            .UseMauiMaps()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
