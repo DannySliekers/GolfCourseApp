@@ -49,6 +49,12 @@
                 Background="Black"
                 Command="{Binding AddImageCommand}"
                 Text="Add Image" />
+
+            <Button
+                Background="Black"
+                Command="{Binding SetLocationCommand}"
+                Text="Set golf course location" />
+
             <Button
                 Background="Black"
                 Command="{Binding AddGolfCourseCommand}"

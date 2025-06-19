@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GolfApp.Helpers;
 using GolfApp.Models;
+using GolfApp.Pages;
 using GolfApp.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace GolfApp.ViewModels
         public TimeSpan FirstTeeTime { get; set; }
         public TimeSpan LastTeeTime { get; set; }
         public ObservableCollection<SelectedImage> SelectedImages { get; set; } = new();
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
 
         [ObservableProperty]
         private int teeTimeIntervalMinutes;
@@ -101,6 +104,12 @@ namespace GolfApp.ViewModels
                 return;
             }
 
+            if (Latitude == null || Longitude == null)
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Please set a golf course location.", "OK");
+                return;
+            }
+
             string userId = await TokenHelper.GetUserId();
 
             if (!int.TryParse(userId, out int parsedUserId))
@@ -117,8 +126,8 @@ namespace GolfApp.ViewModels
                 BookingLastStartTime = TimeOnly.FromTimeSpan(LastTeeTime),
                 StartTimeIntervalMinutes = TeeTimeIntervalMinutes,
                 OwnerId = parsedUserId,
-                Longitude = 0,
-                Latitude = 0
+                Longitude = (double) Longitude,
+                Latitude = (double) Latitude
             };
 
             int golfCourseId = await _golfCourseService.AddGolfCourseAsync(newCourse);
@@ -140,6 +149,16 @@ namespace GolfApp.ViewModels
             {
                 await Shell.Current.DisplayAlert("Error", "Failed to add golf course.", "OK");
             }
+        }
+
+        [RelayCommand]
+        private async Task SetLocationAsync()
+        {
+            await Shell.Current.Navigation.PushAsync(new SelectLocationPage(location =>
+            {
+                Latitude = location.Latitude;
+                Longitude = location.Longitude;
+            }));
         }
 
         private async Task<List<string>> UploadImagesAsync()
