@@ -52,6 +52,7 @@ namespace GolfCourseWebAPI.Repositories
         public async Task<int> RemoveUserFromBooking(int bookingId, int userId)
         {
             var bookingUser = _context.BookingsUsers.FirstOrDefault(b => b.UserId == userId && b.BookingId == bookingId);
+            _context.BookingsUsers.Remove(bookingUser);
             return await _context.SaveChangesAsync();
         }
 

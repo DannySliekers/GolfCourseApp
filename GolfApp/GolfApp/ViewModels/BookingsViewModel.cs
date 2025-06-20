@@ -59,5 +59,28 @@ namespace GolfApp.ViewModels
                 }
             }
         }
+
+        [RelayCommand]
+        private async Task DeleteUserFromBookingAsync(Booking booking)
+        {
+            string userId = await TokenHelper.GetUserId();
+
+            if (Int32.TryParse(userId, out int userIdInt))
+            {
+                if (booking.CreatedByUserId != userIdInt)
+                {
+                    var success = await _bookingService.RemoveUserFromBookingAsync(booking.Id, userIdInt);
+
+                    if (success)
+                    {
+                        Bookings.Remove(booking);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Unable to remove yourself from tee time. Reason: You are the main booker of this tee time", "OK");
+                }
+            }
+        }
     }
 }

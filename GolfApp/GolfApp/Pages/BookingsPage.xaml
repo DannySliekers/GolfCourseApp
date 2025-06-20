@@ -30,6 +30,12 @@
                         <Label FontSize="14" Text="{Binding CreatedByUserId, StringFormat='Booked by User ID: {0}'}" />
                         <Button
                             BackgroundColor="Black"
+                            Command="{Binding Source={x:Reference root}, Path=BindingContext.DeleteUserFromBookingCommand}"
+                            CommandParameter="{Binding}"
+                            CornerRadius="5"
+                            Text="Remove myself" />
+                        <Button
+                            BackgroundColor="Black"
                             Command="{Binding Source={x:Reference root}, Path=BindingContext.DeleteBookingCommand}"
                             CommandParameter="{Binding}"
                             CornerRadius="5"

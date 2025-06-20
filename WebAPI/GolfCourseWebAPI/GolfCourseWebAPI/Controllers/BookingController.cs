@@ -66,6 +66,19 @@ namespace GolfCourseWebAPI.Controllers
             return Ok("User added to booking.");
         }
 
+        [HttpDelete("{bookingId}/users/{userId}")]
+        public async Task<IActionResult> RemoveUserFromBooking([FromRoute] int bookingId, [FromRoute] int userId)
+        {
+            var result = await _repository.RemoveUserFromBooking(bookingId, userId);
+
+            if (result == 0)
+            {
+                return BadRequest("User or booking not found.");
+            }
+
+            return Ok("User removed from booking.");
+        }
+
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(Booking))]
         [ProducesResponseType(400)]

@@ -12,5 +12,6 @@ namespace GolfCourseWebAPI.Repositories
         Task<int> AddUserToBooking(int bookingId, int userId);
         Task<int> UpdateBooking(Booking booking);
         Task<int> DeleteBooking(int id);
+        Task<int> RemoveUserFromBooking(int bookingId, int userId);
     }
 }

@@ -111,5 +111,15 @@ namespace GolfApp.Services
             var userIds = JsonSerializer.Deserialize<List<int>>(content);
             return userIds ?? new List<int>();
         }
+
+        public async Task<bool> RemoveUserFromBookingAsync(int bookingId, int userId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"/api/booking/{bookingId}/users/{userId}");
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

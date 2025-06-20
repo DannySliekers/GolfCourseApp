@@ -9,6 +9,7 @@ namespace GolfApp.Services
         Task<List<Booking>> GetUserBookingsAsync();
         Task<List<int>> GetUserIdsForBookingAsync(int bookingId);
         Task<bool> AddUserToBookingAsync(int bookingId);
+        Task<bool> RemoveUserFromBookingAsync(int bookingId, int userId);
         Task<bool> DeleteBookingAsync(int bookingId);
     }
 }
