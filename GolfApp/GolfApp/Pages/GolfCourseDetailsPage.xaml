@@ -20,12 +20,18 @@
         </CollectionView>
         <Label Text="{Binding GolfCourse.Name}" />
         <Label Text="{Binding GolfCourse.Description}" />
+        <HorizontalStackLayout>
+            <Label Text="{Binding GolfCourse.AmountOfHoles}" />
+            <Label Text="{Binding GolfCourse.AmountOfCourses}" />
+            <Label Text="{Binding GolfCourse.Price}" />
+        </HorizontalStackLayout>
         <Button Background="Black" Text="Book a Tee Time" />
         <Border BackgroundColor="LightGrey">
             <VerticalStackLayout>
-                <Label Text="Email" />
-                <Label Text="Tel" />
-                <Label Text="Adres" />
+                <Label Text="Contact" />
+                <Label Text="{Binding GolfCourse.Address}" />
+                <Label Text="{Binding GolfCourse.Phone}" />
+                <Label Text="{Binding GolfCourse.Email}" />
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

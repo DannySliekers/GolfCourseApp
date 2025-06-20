@@ -15,6 +15,39 @@
                 Placeholder="Enter description"
                 Text="{Binding Description}" />
 
+            <Label Text="Amount of Holes" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter amount of holes"
+                Text="{Binding AmountOfHoles}" />
+
+            <Label Text="Amount of Courses" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter amount of courses"
+                Text="{Binding AmountOfCourses}" />
+
+            <Label Text="Address" />
+            <Entry Placeholder="Enter address" Text="{Binding Address}" />
+
+            <Label Text="Phone" />
+            <Entry
+                Keyboard="Telephone"
+                Placeholder="Enter phone number"
+                Text="{Binding Phone}" />
+
+            <Label Text="Email" />
+            <Entry
+                Keyboard="Email"
+                Placeholder="Enter email"
+                Text="{Binding Email}" />
+
+            <Label Text="Price" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter price"
+                Text="{Binding Price}" />
+
             <Label Text="First Tee Time" />
             <TimePicker Time="{Binding FirstTeeTime}" />
 

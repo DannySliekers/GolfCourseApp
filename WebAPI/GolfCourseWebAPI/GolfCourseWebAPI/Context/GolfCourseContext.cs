@@ -42,6 +42,12 @@ namespace GolfCourseWebAPI.Context
                 entity.Property(e => e.BookingStartTime).HasColumnName("booking_start_time");
                 entity.Property(e => e.BookingLastStartTime).HasColumnName("booking_last_start_time");
                 entity.Property(e => e.StartTimeIntervalMinutes).HasColumnName("start_time_interval_minutes");
+                entity.Property(e => e.AmountOfHoles).HasColumnName("amount_of_holes");
+                entity.Property(e => e.AmountOfCourses).HasColumnName("amount_of_courses");
+                entity.Property(e => e.Address).HasColumnName("address");
+                entity.Property(e => e.Phone).HasColumnName("phone");
+                entity.Property(e => e.Email).HasColumnName("email");
+                entity.Property(e => e.Price).HasColumnName("price");
             });
 
             modelBuilder.Entity<Booking>(entity =>

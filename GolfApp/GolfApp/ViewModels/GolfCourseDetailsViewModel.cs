@@ -6,9 +6,10 @@ using System.Collections.ObjectModel;
 
 namespace GolfApp.ViewModels
 {
-    public class GolfCourseDetailsViewModel : ObservableObject
+    public partial class GolfCourseDetailsViewModel : ObservableObject
     {
-        public GolfCourse GolfCourse { get; set; }
+        [ObservableProperty]
+        private GolfCourse golfCourse;
         public ObservableCollection<ImageSource> Images { get; set; } = new();
 
         private readonly IImageService _imageService;

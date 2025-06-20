@@ -21,6 +21,12 @@ namespace GolfApp.ViewModels
         public ObservableCollection<SelectedImage> SelectedImages { get; set; } = new();
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
+        public int AmountOfHoles { get; set; }
+        public int AmountOfCourses { get; set; }
+        public string Address { get; set; }
+        public string? Phone { get; set; }
+        public string Email { get; set; }
+        public decimal? Price { get; set; }
 
         [ObservableProperty]
         private int teeTimeIntervalMinutes;
@@ -86,6 +92,30 @@ namespace GolfApp.ViewModels
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Address is required.", "OK");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Email is required.", "OK");
+                return;
+            }
+
+            if (AmountOfHoles <= 0)
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Enter a valid amount of holes.", "OK");
+                return;
+            }
+
+            if (AmountOfCourses <= 0)
+            {
+                await Shell.Current.DisplayAlert("Validation Error", "Enter a valid amount of courses.", "OK");
+                return;
+            }
+
             if (LastTeeTime <= FirstTeeTime)
             {
                 await Shell.Current.DisplayAlert("Validation Error", "Last booking time must be after start time.", "OK");
@@ -127,7 +157,13 @@ namespace GolfApp.ViewModels
                 StartTimeIntervalMinutes = TeeTimeIntervalMinutes,
                 OwnerId = parsedUserId,
                 Longitude = (double) Longitude,
-                Latitude = (double) Latitude
+                Latitude = (double) Latitude,
+                AmountOfHoles = AmountOfHoles,
+                AmountOfCourses = AmountOfCourses,
+                Address = Address,
+                Phone = Phone,
+                Email = Email,
+                Price = Price
             };
 
             int golfCourseId = await _golfCourseService.AddGolfCourseAsync(newCourse);

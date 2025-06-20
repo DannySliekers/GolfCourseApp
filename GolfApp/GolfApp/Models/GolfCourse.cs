@@ -11,6 +11,12 @@
         public TimeOnly BookingStartTime { get; set; }
         public TimeOnly BookingLastStartTime { get; set; }
         public int StartTimeIntervalMinutes { get; set; }
+        public int AmountOfHoles { get; set; }
+        public int AmountOfCourses { get; set; }
+        public string Address { get; set; }
+        public string? Phone { get; set; }
+        public string Email { get; set; }
+        public decimal? Price { get; set; }
         public ImageSource FirstImage { get; set; }
     }
 }
