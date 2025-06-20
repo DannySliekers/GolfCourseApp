@@ -25,33 +25,33 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddSingleton<LoginViewModel>();
-        mauiAppBuilder.Services.AddSingleton<RegisterViewModel>();
-        mauiAppBuilder.Services.AddSingleton<HomeViewModel>();
+        mauiAppBuilder.Services.AddTransient<LoginViewModel>();
+        mauiAppBuilder.Services.AddTransient<RegisterViewModel>();
+        mauiAppBuilder.Services.AddTransient<HomeViewModel>();
         mauiAppBuilder.Services.AddTransient<GolfCourseDetailsViewModel>();
         mauiAppBuilder.Services.AddTransient<AddGolfCourseViewModel>();
         mauiAppBuilder.Services.AddTransient<EditGolfCourseViewModel>();
         mauiAppBuilder.Services.AddTransient<BookTeeTimeViewModel>();
-        mauiAppBuilder.Services.AddSingleton<BookingsViewModel>();
-        mauiAppBuilder.Services.AddSingleton<UserProfileViewModel>();
-        mauiAppBuilder.Services.AddSingleton<MapViewModel>();
-        mauiAppBuilder.Services.AddSingleton<ManageViewModel>();
+        mauiAppBuilder.Services.AddTransient<BookingsViewModel>();
+        mauiAppBuilder.Services.AddTransient<UserProfileViewModel>();
+        mauiAppBuilder.Services.AddTransient<MapViewModel>();
+        mauiAppBuilder.Services.AddTransient<ManageViewModel>();
         return mauiAppBuilder;
     }
 
     public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
     {
-        mauiAppBuilder.Services.AddSingleton<RegisterPage>();
-        mauiAppBuilder.Services.AddSingleton<LoginPage>();
-        mauiAppBuilder.Services.AddSingleton<MainPage>();
+        mauiAppBuilder.Services.AddTransient<RegisterPage>();
+        mauiAppBuilder.Services.AddTransient<LoginPage>();
+        mauiAppBuilder.Services.AddTransient<MainPage>();
         mauiAppBuilder.Services.AddTransient<GolfCourseDetailsPage>();
         mauiAppBuilder.Services.AddTransient<AddGolfCoursePage>();
         mauiAppBuilder.Services.AddTransient<EditGolfCoursePage>();
         mauiAppBuilder.Services.AddTransient<BookTeeTimePage>();
-        mauiAppBuilder.Services.AddSingleton<BookingsPage>();
-        mauiAppBuilder.Services.AddSingleton<UserProfilePage>();
-        mauiAppBuilder.Services.AddSingleton<MapPage>();
-        mauiAppBuilder.Services.AddSingleton<ManagePage>();
+        mauiAppBuilder.Services.AddTransient<BookingsPage>();
+        mauiAppBuilder.Services.AddTransient<UserProfilePage>();
+        mauiAppBuilder.Services.AddTransient<MapPage>();
+        mauiAppBuilder.Services.AddTransient<ManagePage>();
         return mauiAppBuilder;
     }
 
