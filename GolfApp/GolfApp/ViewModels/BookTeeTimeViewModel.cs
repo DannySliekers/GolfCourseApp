@@ -84,7 +84,7 @@ namespace GolfApp.ViewModels
 
             if (booking.UserCount > 0)
             {
-                var success = await _bookingService.AddUserToBooking(booking.BookingId);
+                var success = await _bookingService.AddUserToBookingAsync(booking.BookingId);
 
                 if (success)
                 {

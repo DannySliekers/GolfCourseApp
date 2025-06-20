@@ -29,7 +29,17 @@ namespace GolfApp.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddUserToBooking(int bookingId)
+        public async Task<bool> DeleteBookingAsync(int bookingId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"/api/booking?id={bookingId}");
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddUserToBookingAsync(int bookingId)
         {
             string token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

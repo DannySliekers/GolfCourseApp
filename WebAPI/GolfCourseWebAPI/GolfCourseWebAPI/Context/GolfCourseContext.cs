@@ -94,8 +94,7 @@ namespace GolfCourseWebAPI.Context
             {
                 entity.ToTable("bookings_users");
 
-                entity.HasKey(e => e.UserId);
-                entity.HasKey(e => e.BookingId);
+                entity.HasKey(e => new { e.UserId, e.BookingId });
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
                 entity.Property(e => e.BookingId).HasColumnName("booking_id");

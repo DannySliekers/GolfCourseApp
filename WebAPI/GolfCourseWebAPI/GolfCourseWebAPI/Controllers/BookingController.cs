@@ -95,7 +95,7 @@ namespace GolfCourseWebAPI.Controllers
             return _repository.GetAll().ToList();
         }
 
-        [HttpGet("/user/{userId}")]
+        [HttpGet("user/{userId}")]
         public List<Booking> GetUserBookings(int userId)
         {
             return _repository.GetAllUserBookings(userId).ToList();
