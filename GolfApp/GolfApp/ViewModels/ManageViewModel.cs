@@ -41,7 +41,11 @@ namespace GolfApp.ViewModels
         [RelayCommand]
         private async Task EditGolfCourseAsync(GolfCourse golfCourse)
         {
-
+            await Shell.Current.GoToAsync("EditGolfCourse",
+                new Dictionary<string, object>
+                {
+                    { "GolfCourse", golfCourse }
+                });
         }
 
         public async Task GetManagedGolfCourses()

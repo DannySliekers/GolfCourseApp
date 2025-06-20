@@ -64,6 +64,19 @@ namespace GolfApp.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> EditGolfCourseAsync(GolfCourse course)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            string json = JsonSerializer.Serialize(course);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PutAsync("/api/golfcourse", content);
+
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<List<GolfCourse>> GetAllGolfCoursesAsync()
         {
             var token = await SecureStorage.Default.GetAsync("jwt");

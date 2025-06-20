@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GolfApp.Pages.EditGolfCoursePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Edit Golf Course">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Label Text="Name" />
+            <Entry Placeholder="Enter name" Text="{Binding GolfCourse.Name}" />
+
+            <Label Text="Description" />
+            <Editor
+                AutoSize="TextChanges"
+                Placeholder="Enter description"
+                Text="{Binding GolfCourse.Description}" />
+
+            <Label Text="Amount of Holes" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter amount of holes"
+                Text="{Binding GolfCourse.AmountOfHoles}" />
+
+            <Label Text="Amount of Courses" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter amount of courses"
+                Text="{Binding GolfCourse.AmountOfCourses}" />
+
+            <Label Text="Address" />
+            <Entry Placeholder="Enter address" Text="{Binding GolfCourse.Address}" />
+
+            <Label Text="Phone" />
+            <Entry
+                Keyboard="Telephone"
+                Placeholder="Enter phone number"
+                Text="{Binding GolfCourse.Phone}" />
+
+            <Label Text="Email" />
+            <Entry
+                Keyboard="Email"
+                Placeholder="Enter email"
+                Text="{Binding GolfCourse.Email}" />
+
+            <Label Text="Price" />
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Enter price"
+                Text="{Binding GolfCourse.Price}" />
+
+            <Label Text="First Tee Time" />
+            <TimePicker Time="{Binding FirstTeeTime}" />
+
+            <Label Text="Last Tee Time" />
+            <TimePicker Time="{Binding LastTeeTime}" />
+
+            <Label Text="{Binding TeeTimeIntervalMinutes, StringFormat='Tee Time Interval (minutes): {0}'}" />
+            <Stepper
+                Increment="1"
+                Maximum="100"
+                Minimum="1"
+                Value="{Binding TeeTimeIntervalMinutes}" />
+
+
+            <!--<CollectionView ItemsLayout="VerticalGrid, 2" ItemsSource="{Binding SelectedImages}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                        Padding="5"
+                        BorderColor="LightGray"
+                        HasShadow="False">
+                            <Image
+                            Aspect="AspectFill"
+                            HeightRequest="150"
+                            Source="{Binding ImageSource}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+
+            <!--<Button
+            Background="Black"
+            Command="{Binding AddImageCommand}"
+            Text="Add Image" />
+
+            <Button
+            Background="Black"
+            Command="{Binding SetLocationCommand}"
+            Text="Set golf course location" />-->
+
+            <Button
+                Background="Black"
+                Command="{Binding EditGolfCourseCommand}"
+                Text="Save" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

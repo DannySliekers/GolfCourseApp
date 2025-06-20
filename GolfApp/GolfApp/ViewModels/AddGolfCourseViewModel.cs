@@ -5,8 +5,6 @@ using GolfApp.Models;
 using GolfApp.Pages;
 using GolfApp.Services;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace GolfApp.ViewModels
 {

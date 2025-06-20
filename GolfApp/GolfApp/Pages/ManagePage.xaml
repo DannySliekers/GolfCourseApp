@@ -30,6 +30,8 @@
                                 VerticalOptions="End">
                                 <Button
                                     BackgroundColor="Black"
+                                    Command="{Binding Source={x:Reference PageRoot}, Path=BindingContext.EditGolfCourseCommand}"
+                                    CommandParameter="{Binding}"
                                     CornerRadius="5"
                                     Text="Edit"
                                     TextColor="White" />
