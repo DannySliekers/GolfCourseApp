@@ -1,9 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GolfApp.Services;
-using System.Diagnostics;
-using System.Text;
-using System.Text.Json;
 
 namespace GolfApp.ViewModels
 {
@@ -29,6 +26,12 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
+        private async Task NavigateToLogin()
+        {
+            await Shell.Current.GoToAsync("///Login");
+        }
+
+        [RelayCommand]
         private async Task RegisterAsync()
         {
             if (string.IsNullOrWhiteSpace(Email) ||
@@ -43,6 +46,7 @@ namespace GolfApp.ViewModels
             {
                 var success = await _authService.RegisterAsync(Email, Username, Password);
                 StatusMessage = success ? "Registration successful!" : "Registration failed.";
+                await NavigateToLogin();
             }
             catch (Exception ex)
             {

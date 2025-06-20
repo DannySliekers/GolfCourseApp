@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GolfApp.Pages;
 using GolfApp.Services;
 
 namespace GolfApp.ViewModels
@@ -20,6 +21,12 @@ namespace GolfApp.ViewModels
         public LoginViewModel(IAuthService authService)
         {
             _authService = authService;
+        }
+
+        [RelayCommand]
+        private async Task NavigateToRegister()
+        {
+            await Shell.Current.GoToAsync("///Register");
         }
 
         [RelayCommand]

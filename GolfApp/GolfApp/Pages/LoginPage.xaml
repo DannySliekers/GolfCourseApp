@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GolfApp.Pages.LoginPage"
-             Title="LoginPage">
+<ContentPage
+    x:Class="GolfApp.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="LoginPage">
     <VerticalStackLayout>
         <ScrollView>
-            <VerticalStackLayout Padding="30" Spacing="20"
-                         VerticalOptions="Center">
+            <VerticalStackLayout
+                Padding="30"
+                Spacing="20"
+                VerticalOptions="Center">
 
-                <Label Text="Login"
-               FontSize="32"
-               HorizontalOptions="Center"
-               FontAttributes="Bold" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    Text="Login" />
 
-                <Entry x:Name="UsernameEntry"
-               Placeholder="Username"
-               Text="{Binding Username}" />
+                <Entry
+                    x:Name="UsernameEntry"
+                    Placeholder="Username"
+                    Text="{Binding Username}" />
 
-                <Entry x:Name="PasswordEntry"
-               Placeholder="Password"
-               IsPassword="True"
-               Text="{Binding Password}" />
+                <Entry
+                    x:Name="PasswordEntry"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    Text="{Binding Password}" />
 
 
-                <Button Text="Login" 
-                    Command="{Binding LoginCommand}" 
+                <Button
                     BackgroundColor="Black"
-                    TextColor="White"
-                    CornerRadius="8" />
+                    Command="{Binding LoginCommand}"
+                    CornerRadius="8"
+                    Text="Login"
+                    TextColor="White" />
 
-                <Label Text="{Binding StatusMessage}" TextColor="Red" FontSize="Small"/>
+                <Label
+                    FontSize="Small"
+                    Text="{Binding StatusMessage}"
+                    TextColor="Red" />
+
+                <Button
+                    Padding="0"
+                    BackgroundColor="Transparent"
+                    Command="{Binding NavigateToRegisterCommand}"
+                    FontAttributes="Italic"
+                    HorizontalOptions="Center"
+                    Text="Don't have an account? Register here"
+                    TextColor="Blue" />
 
             </VerticalStackLayout>
         </ScrollView>
