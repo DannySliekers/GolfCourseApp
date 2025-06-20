@@ -51,6 +51,13 @@ namespace GolfCourseWebAPI.Repositories
             return _context.GolfCourses.ToList();
         }
 
+        public IEnumerable<GolfCourse> GetByOwnerId(int ownerId)
+        {
+            return _context.GolfCourses
+                           .Where(gc => gc.OwnerId == ownerId)
+                           .ToList();
+        }
+
         public List<string> GetImageUrls(int id)
         {
             return _context.GolfCourseImages.Where(x => x.GolfCourseId == id).Select(image => image.Url).ToList();

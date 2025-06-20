@@ -11,5 +11,6 @@ namespace GolfCourseWebAPI.Repositories
         Task<int> UpdateGolfCourse(GolfCourse golfCourse);
         Task<int> DeleteGolfCourse(int id);
         List<string> GetImageUrls(int id);
+        IEnumerable<GolfCourse> GetByOwnerId(int ownerId);
     }
 }

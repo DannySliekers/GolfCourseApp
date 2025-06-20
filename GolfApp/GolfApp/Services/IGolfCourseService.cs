@@ -7,5 +7,7 @@ namespace GolfApp.Services
         Task<List<GolfCourse>> GetAllGolfCoursesAsync();
         Task<int> AddGolfCourseAsync(GolfCourse course);
         Task<bool> AddImageToGolfCourseAsync(int id, string imageUrl);
+        Task<bool> DeleteGolfCourseAsync(int id);
+        Task<List<GolfCourse>> GetManagedGolfCoursesAsync();
     }
 }

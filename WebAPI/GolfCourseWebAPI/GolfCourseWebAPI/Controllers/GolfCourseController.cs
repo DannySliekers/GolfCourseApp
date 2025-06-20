@@ -103,6 +103,12 @@ namespace GolfCourseWebAPI.Controllers
             return _repository.GetAll().ToList();
         }
 
+        [HttpGet("owner/{ownerId}")]
+        public List<GolfCourse> GetGolfCoursesByOwner(int ownerId)
+        {
+            return _repository.GetByOwnerId(ownerId).ToList();
+        }
+
         [HttpGet("{id}")]
         public GolfCourse GetById(int id)
         {

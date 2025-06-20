@@ -1,4 +1,5 @@
-﻿using GolfApp.Models;
+﻿using GolfApp.Helpers;
+using GolfApp.Models;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -53,12 +54,45 @@ namespace GolfApp.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> DeleteGolfCourseAsync(int id)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.DeleteAsync($"/api/golfcourse?id={id}");
+
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<List<GolfCourse>> GetAllGolfCoursesAsync()
         {
             var token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.GetAsync("/api/golfcourse");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<GolfCourse>();
+            }
+
+            var courses = await response.Content.ReadFromJsonAsync<List<GolfCourse>>();
+
+            if (courses == null)
+            {
+                return new List<GolfCourse>();
+            }
+
+            return courses;
+        }
+
+        public async Task<List<GolfCourse>> GetManagedGolfCoursesAsync()
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            string userId = await TokenHelper.GetUserId();
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/golfcourse/owner/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
