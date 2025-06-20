@@ -34,10 +34,5 @@ public partial class MainPage : ContentPage
                 });
         }
     }
-
-    private async void OnFloatingButtonClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("AddGolfCourse");
-    }
 }
 

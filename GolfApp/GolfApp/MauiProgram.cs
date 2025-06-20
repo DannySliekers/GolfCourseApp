@@ -34,6 +34,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<BookingsViewModel>();
         mauiAppBuilder.Services.AddSingleton<UserProfileViewModel>();
         mauiAppBuilder.Services.AddSingleton<MapViewModel>();
+        mauiAppBuilder.Services.AddSingleton<ManageViewModel>();
         return mauiAppBuilder;
     }
 
@@ -48,6 +49,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddSingleton<BookingsPage>();
         mauiAppBuilder.Services.AddSingleton<UserProfilePage>();
         mauiAppBuilder.Services.AddSingleton<MapPage>();
+        mauiAppBuilder.Services.AddSingleton<ManagePage>();
         return mauiAppBuilder;
     }
 

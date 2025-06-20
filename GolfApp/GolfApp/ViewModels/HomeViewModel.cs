@@ -44,6 +44,8 @@ namespace GolfApp.ViewModels
 
         public async Task InitializeAsync()
         {
+            await (Shell.Current as AppShell)?.AddManageTabAsync();
+
             try
             {
                 var courses = await _golfCourseService.GetAllGolfCoursesAsync();

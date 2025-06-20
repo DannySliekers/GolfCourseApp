@@ -53,18 +53,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button
-            Margin="20"
-            BackgroundColor="Black"
-            Clicked="OnFloatingButtonClicked"
-            CornerRadius="30"
-            FontSize="24"
-            HeightRequest="60"
-            HorizontalOptions="End"
-            IsVisible="{Binding ShowAddButton}"
-            Text="+"
-            TextColor="White"
-            VerticalOptions="End"
-            WidthRequest="60" />
     </Grid>
 </ContentPage>

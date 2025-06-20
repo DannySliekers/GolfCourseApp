@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:GolfApp"
     xmlns:pages="clr-namespace:GolfApp.Pages"
     Shell.FlyoutBehavior="Disabled">
-
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate pages:LoginPage}"
