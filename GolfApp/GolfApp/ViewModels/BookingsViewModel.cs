@@ -21,7 +21,7 @@ namespace GolfApp.ViewModels
         {
             try
             {
-                var bookings = await _bookingService.GetAllBookingAsync();
+                var bookings = await _bookingService.GetUserBookingsAsync();
                 Bookings.Clear();
                 foreach (var booking in bookings)
                 {

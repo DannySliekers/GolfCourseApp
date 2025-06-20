@@ -62,6 +62,29 @@ namespace GolfApp.Services
             return bookings;
         }
 
+        public async Task<List<Booking>> GetUserBookingsAsync()
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string userId = await TokenHelper.GetUserId();
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/booking/user/{userId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<Booking>();
+            }
+
+            var bookings = await response.Content.ReadFromJsonAsync<List<Booking>>();
+
+            if (bookings == null)
+            {
+                return new List<Booking>();
+            }
+
+            return bookings;
+        }
+
         public async Task<List<int>> GetUserIdsForBookingAsync(int bookingId)
         {
             string token = await SecureStorage.Default.GetAsync("jwt");

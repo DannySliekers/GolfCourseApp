@@ -65,6 +65,19 @@ namespace GolfCourseWebAPI.Repositories
             return _context.Bookings.ToList();
         }
 
+        public IEnumerable<Booking> GetAllUserBookings(int userId)
+        {
+            var userBookings = _context.BookingsUsers.Where(x => x.UserId == userId);
+            List<Booking> correspondingBookings = [];
+
+            foreach (var userBooking in userBookings)
+            {
+                correspondingBookings.Add(_context.Bookings.First(x => x.Id == userBooking.BookingId));
+            }
+
+            return correspondingBookings;
+        }
+
         public IEnumerable<int> GetUserIds(int bookingId)
         {
             return _context.BookingsUsers.Where(x => x.BookingId == bookingId).Select(x => x.UserId);

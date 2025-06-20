@@ -1,6 +1,5 @@
 ﻿using GolfCourseWebAPI.Context;
 using GolfCourseWebAPI.Models;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
