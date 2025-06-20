@@ -37,5 +37,13 @@
             HorizontalOptions="Center"
             Text="{Binding User.Email}"
             TextColor="Gray" />
+
+        <Button
+            Background="Black"
+            Command="{Binding LogoutCommand}"
+            CornerRadius="5"
+            Text="Logout" />
+
+
     </VerticalStackLayout>
 </ContentPage>

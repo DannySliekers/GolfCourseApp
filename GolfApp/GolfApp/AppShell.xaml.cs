@@ -44,4 +44,20 @@ public partial class AppShell : Shell
             }
         }
     }
+
+    public void HandleLogout()
+    {
+        var tabBar = Items.OfType<TabBar>().FirstOrDefault();
+        if (tabBar == null)
+        {
+            return;
+        }
+
+        ShellSection manageTab = tabBar.Items.FirstOrDefault(i => i.Title == "Manage");
+
+        if (manageTab != null)
+        {
+            tabBar.Items.Remove(manageTab);
+        }
+    }
 }

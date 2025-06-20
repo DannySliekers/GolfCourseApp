@@ -20,6 +20,14 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
+        private async Task LogoutAsync()
+        {
+            SecureStorage.Remove("jwt");
+            (Shell.Current as AppShell).HandleLogout();
+            await Shell.Current.GoToAsync("//Login");
+        }
+
+        [RelayCommand]
         private async Task ChangeAvatar()
         {
             FileResult photo = null;
