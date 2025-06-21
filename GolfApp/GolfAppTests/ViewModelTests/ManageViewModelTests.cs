@@ -1,4 +1,5 @@
-﻿using GolfApp.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using GolfApp.Models;
 using GolfApp.Services;
 using GolfApp.ViewModels;
 using NSubstitute;
@@ -59,5 +60,32 @@ namespace GolfAppTests.ViewModelTests
             Assert.Contains(_viewModel.ManagedBookings, b => b.Id == 2);
         }
 
+        [Fact]
+        public async Task DeleteGolfCourseCommand_ShouldRemoveCourse_WhenSuccessful()
+        {
+            var course = new GolfCourse { Id = 1, Name = "Test Course" };
+            _viewModel.ManagedGolfCourses.Add(course);
+
+            _golfCourseService.DeleteGolfCourseAsync(course.Id).Returns(true);
+
+            var command = _viewModel.DeleteGolfCourseCommand;
+            await ((IAsyncRelayCommand)command).ExecuteAsync(course);
+
+            Assert.DoesNotContain(course, _viewModel.ManagedGolfCourses);
+        }
+
+        [Fact]
+        public async Task DeleteBookingCommand_ShouldRemoveBooking_WhenSuccessful()
+        {
+            var booking = new Booking { Id = 99 };
+            _viewModel.ManagedBookings.Add(booking);
+
+            _bookingService.DeleteBookingAsync(booking.Id).Returns(true);
+
+            var command = _viewModel.DeleteBookingCommand;
+            await ((IAsyncRelayCommand)command).ExecuteAsync(booking);
+
+            Assert.DoesNotContain(booking, _viewModel.ManagedBookings);
+        }
     }
 }
