@@ -82,41 +82,47 @@ namespace GolfApp.ViewModels
                 await Shell.Current.DisplayAlert("Error", "Failed getting User ID.", "OK");
             }
 
-            if (booking.UserCount > 0)
-            {
-                var success = await _bookingService.AddUserToBookingAsync(booking.BookingId);
+            //if (booking.UserCount > 0)
+            //{
+            //    var success = await _bookingService.AddUserToBookingAsync(booking.BookingId);
 
-                if (success)
-                {
-                    await Shell.Current.DisplayAlert("Success", "Added user to booking.", "OK");
-                    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", "Failed to add user to booking.", "OK");
-                }
-            }
-            else
-            {
+            //    if (success)
+            //    {
+            //        await Shell.Current.DisplayAlert("Success", "Added user to booking.", "OK");
+            //        await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
+            //    }
+            //    else
+            //    {
+            //        await Shell.Current.DisplayAlert("Error", "Failed to add user to booking.", "OK");
+            //    }
+            ////}
+            //else
+            //{
                 var newBooking = new Booking()
                 {
+                    Id = booking.BookingId,
                     GolfCourseId = GolfCourse.Id,
                     StartTime = fullDate,
                     CreatedByUserId = userId
                 };
+                await Shell.Current.GoToAsync("BookTeeTimeDetails",
+                    new Dictionary<string, object>
+                    {
+                        { "Booking", newBooking }
+                    }
+                );
+               // var success = await _bookingService.AddBookingAsync(newBooking);
 
-                var success = await _bookingService.AddBookingAsync(newBooking);
-
-                if (success)
-                {
-                    await Shell.Current.DisplayAlert("Success", "Booking added successfully.", "OK");
-                    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Error", "Failed to add booking.", "OK");
-                }
-            }
+                //if (success)
+                //{
+                //    await Shell.Current.DisplayAlert("Success", "Booking added successfully.", "OK");
+                //    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
+                //}
+                //else
+                //{
+                //    await Shell.Current.DisplayAlert("Error", "Failed to add booking.", "OK");
+                //}
+            //}
         }
     }
 }

@@ -36,6 +36,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<UserProfileViewModel>();
         mauiAppBuilder.Services.AddTransient<MapViewModel>();
         mauiAppBuilder.Services.AddTransient<ManageViewModel>();
+        mauiAppBuilder.Services.AddTransient<BookTeeTimeDetailsViewModel>();
         return mauiAppBuilder;
     }
 
@@ -52,6 +53,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<UserProfilePage>();
         mauiAppBuilder.Services.AddTransient<MapPage>();
         mauiAppBuilder.Services.AddTransient<ManagePage>();
+        mauiAppBuilder.Services.AddTransient<BookTeeTimeDetailsPage>();
         return mauiAppBuilder;
     }
 

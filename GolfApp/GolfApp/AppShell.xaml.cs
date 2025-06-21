@@ -14,6 +14,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("AddGolfCourse", typeof(AddGolfCoursePage));
         Routing.RegisterRoute("EditGolfCourse", typeof(EditGolfCoursePage));
         Routing.RegisterRoute("BookTeeTime", typeof(BookTeeTimePage));
+        Routing.RegisterRoute("BookTeeTimeDetails", typeof(BookTeeTimeDetailsPage));
     }
 
     public async Task AddManageTabAsync()

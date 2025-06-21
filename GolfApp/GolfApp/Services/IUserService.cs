@@ -11,5 +11,6 @@ namespace GolfApp.Services
     {
         Task<User> GetLoggedInUser();
         Task<bool> SetUserAvatar(string avatarUrl);
+        Task<List<User>> GetAllUsers();
     }
 }

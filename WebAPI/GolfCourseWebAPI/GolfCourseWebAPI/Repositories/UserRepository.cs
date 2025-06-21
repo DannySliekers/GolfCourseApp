@@ -20,6 +20,18 @@ namespace GolfCourseWebAPI.Repositories
             return user;
         }
 
+        public List<User> GetAllUsers()
+        {
+            var users = _context.Users.ToList();
+
+            foreach (var user in users)
+            {
+                user.Hash = string.Empty;
+            }
+
+            return users;
+        }
+
         public async  Task<int> SetAvatar(int userId, string avatarUrl)
         {
             var user = _context.Users.FirstOrDefault(user => user.Id == userId);

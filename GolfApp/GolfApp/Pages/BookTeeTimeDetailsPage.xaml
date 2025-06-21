@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GolfApp.Pages.BookTeeTimeDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="BookTeeTimeDetailsPage">
+    <Grid x:Name="RootGrid">
+        <VerticalStackLayout>
+            <Label Text="Tee time:" />
+            <Label
+                HorizontalOptions="Center"
+                Text="{Binding Booking.StartTime}"
+                VerticalOptions="Center" />
+
+            <Label Text="Users in this tee time:" />
+
+            <CollectionView ItemsSource="{Binding Users}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding UserName}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button
+                Background="Black"
+                Clicked="OnAddUserClicked"
+                CornerRadius="5"
+                Text="Add User" />
+
+            <Button
+                Background="Black"
+                Command="{Binding BookTeeTimeCommand}"
+                CornerRadius="5"
+                Text="Book tee time" />
+        </VerticalStackLayout>
+
+        <!--  Overlay popup  -->
+        <Grid
+            x:Name="PopupOverlay"
+            Padding="20"
+            BackgroundColor="#80000000"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="False"
+            RowDefinitions="*,Auto"
+            VerticalOptions="FillAndExpand"
+            ZIndex="10">
+            <Frame
+                Padding="15"
+                BackgroundColor="White"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="300">
+                <VerticalStackLayout>
+                    <SearchBar
+                        x:Name="UserSearchBar"
+                        Placeholder="Search user..."
+                        TextChanged="OnSearchTextChanged" />
+                    <CollectionView
+                        x:Name="UserSearchResults"
+                        SelectionChanged="OnUserSelected"
+                        SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Label Padding="10" Text="{Binding UserName}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Button Clicked="OnClosePopupClicked" Text="Close" />
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

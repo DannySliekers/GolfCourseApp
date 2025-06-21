@@ -19,6 +19,28 @@ namespace GolfApp.Services
             _httpClient = httpClient;
         }
 
+        public async Task<List<User>> GetAllUsers()
+        {
+            var token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync($"/api/user");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<User>();
+            }
+
+            var users = await response.Content.ReadFromJsonAsync<List<User>>();
+
+            if (users == null)
+            {
+                return new List<User>();
+            }
+
+            return users;
+        }
+
         public async Task<User> GetLoggedInUser()
         {
             var token = await SecureStorage.Default.GetAsync("jwt");

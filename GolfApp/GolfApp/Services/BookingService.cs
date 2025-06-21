@@ -16,7 +16,7 @@ namespace GolfApp.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> AddBookingAsync(Booking booking)
+        public async Task<Booking> AddBookingAsync(Booking booking)
         {
             string token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -26,7 +26,19 @@ namespace GolfApp.Services
 
             HttpResponseMessage response = await _httpClient.PostAsync("/api/booking", content);
 
-            return response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                return new Booking();
+            }
+
+            var uploadedBooking = await response.Content.ReadFromJsonAsync<Booking>();
+
+            if (uploadedBooking == null)
+            {
+                return new Booking();
+            }
+
+            return uploadedBooking;
         }
 
         public async Task<bool> DeleteBookingAsync(int bookingId)
@@ -39,11 +51,21 @@ namespace GolfApp.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddUserToBookingAsync(int bookingId)
+        public async Task<bool> AddLoggedInUserToBookingAsync(int bookingId)
         {
             string token = await SecureStorage.Default.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string userId = await TokenHelper.GetUserId();
+
+            HttpResponseMessage response = await _httpClient.PostAsync($"/api/booking/{bookingId}/users/{userId}", null);
+            
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddUserToBookingAsync(int bookingId, int userId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await _httpClient.PostAsync($"/api/booking/{bookingId}/users/{userId}", null);
             

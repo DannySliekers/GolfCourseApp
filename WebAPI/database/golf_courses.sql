@@ -9,8 +9,10 @@ CREATE TABLE golf_courses (
     booking_last_start_time TIME NOT NULL,
     start_time_interval_minutes SMALLINT NOT NULL,
     amount_of_holes SMALLINT NOT NULL,
+    amount_of_courses SMALLINT NOT NULL,
     address TEXT NOT NULL,
     email TEXT NOT NULL,
     phone TEXT NOT NULL,
+    price DECIMAL(10, 2)
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );

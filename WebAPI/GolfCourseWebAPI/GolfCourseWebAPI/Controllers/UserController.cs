@@ -69,5 +69,27 @@ namespace GolfCourseWebAPI.Controllers
 
             return userResponse;
         }
+
+        [HttpGet]
+        public List<UserResponse> GetAllUsers()
+        {
+            var users = _userRepository.GetAllUsers();
+            List<UserResponse> userResponses = [];
+
+            foreach (var user in users)
+            {
+                var userResponse = new UserResponse()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    AvatarUrl = user.AvatarUrl
+                };
+
+                userResponses.Add(userResponse);
+            }
+
+            return userResponses;
+        }
     }
 }
