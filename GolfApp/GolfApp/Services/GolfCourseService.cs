@@ -10,15 +10,18 @@ namespace GolfApp.Services
     public sealed class GolfCourseService : IGolfCourseService
     {
         private readonly HttpClient _httpClient;
+        private readonly ISecureStorageService _secureStorage;
 
-        public GolfCourseService(HttpClient httpClient)
+        public GolfCourseService(HttpClient httpClient, ISecureStorageService secureStorage)
         {
             _httpClient = httpClient;
+            _secureStorage = secureStorage;
         }
 
         public async Task<int> AddGolfCourseAsync(GolfCourse course)
         {
-            var token = await SecureStorage.Default.GetAsync("jwt");
+            
+            var token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var json = JsonSerializer.Serialize(course);
@@ -38,7 +41,7 @@ namespace GolfApp.Services
 
         public async Task<bool> AddImageToGolfCourseAsync(int id, string imageUrl)
         {
-            var token = await SecureStorage.Default.GetAsync("jwt");
+            var token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var body = new
@@ -56,7 +59,7 @@ namespace GolfApp.Services
 
         public async Task<bool> DeleteGolfCourseAsync(int id)
         {
-            string token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await _httpClient.DeleteAsync($"/api/golfcourse?id={id}");
@@ -66,7 +69,7 @@ namespace GolfApp.Services
 
         public async Task<bool> EditGolfCourseAsync(GolfCourse course)
         {
-            string token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             string json = JsonSerializer.Serialize(course);
@@ -79,7 +82,7 @@ namespace GolfApp.Services
 
         public async Task<List<GolfCourse>> GetAllGolfCoursesAsync()
         {
-            var token = await SecureStorage.Default.GetAsync("jwt");
+            var token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.GetAsync("/api/golfcourse");
@@ -101,7 +104,7 @@ namespace GolfApp.Services
 
         public async Task<GolfCourse> GetGolfCourseById(int id)
         {
-            string token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/golfcourse/{id}");
@@ -123,7 +126,7 @@ namespace GolfApp.Services
 
         public async Task<List<GolfCourse>> GetManagedGolfCoursesAsync()
         {
-            string token = await SecureStorage.Default.GetAsync("jwt");
+            string token = await _secureStorage.GetAsync("jwt");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             string userId = await TokenHelper.GetUserId();

@@ -67,6 +67,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddCustomHttpClient<IBookingService, BookingService>(baseUrl);
         mauiAppBuilder.Services.AddCustomHttpClient<IUserService, UserService>(baseUrl);
         mauiAppBuilder.Services.AddCustomHttpClient<IUploadService, UploadService>(baseUrl);
+        mauiAppBuilder.Services.AddSingleton<ISecureStorageService, SecureStorageService>();
+
 
         return mauiAppBuilder;
     }

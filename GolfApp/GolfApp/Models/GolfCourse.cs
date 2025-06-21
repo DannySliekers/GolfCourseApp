@@ -1,4 +1,6 @@
-﻿namespace GolfApp.Models
+﻿using System.Text.Json.Serialization;
+
+namespace GolfApp.Models
 {
     public sealed class GolfCourse
     {
@@ -17,6 +19,7 @@
         public string? Phone { get; set; }
         public string Email { get; set; }
         public decimal? Price { get; set; }
+        [JsonIgnore]
         public ImageSource FirstImage { get; set; }
     }
 }
