@@ -6,7 +6,11 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Title="">
     <Grid Padding="20" RowDefinitions="Auto, *">
-        <Label Grid.Row="0" Text="Select a Date:" />
+        <Label
+            Grid.Row="0"
+            FontAttributes="Bold"
+            FontSize="20"
+            Text="Select a Date:" />
 
         <DatePicker
             Grid.Row="0"
@@ -28,6 +32,7 @@
                         Padding="10"
                         BackgroundColor="LightGray"
                         HorizontalOptions="Fill"
+                        StrokeShape="RoundRectangle 10"
                         VerticalOptions="Fill">
                         <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label
@@ -35,7 +40,10 @@
                                 HorizontalOptions="Center"
                                 Text="{Binding Time}" />
 
-                            <HorizontalStackLayout Padding="0" Spacing="4">
+                            <HorizontalStackLayout
+                                Margin="0,10,0,0"
+                                Padding="0"
+                                Spacing="4">
                                 <CollectionView
                                     HeightRequest="20"
                                     ItemsLayout="HorizontalList"
@@ -43,7 +51,7 @@
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Frame
-                                                Padding="0"
+                                                Margin="0,0,1,0"
                                                 BackgroundColor="{Binding .}"
                                                 BorderColor="Black"
                                                 CornerRadius="3"
@@ -56,8 +64,11 @@
                             </HorizontalStackLayout>
 
                             <Button
+                                Margin="0,10,0,0"
+                                BackgroundColor="Black"
                                 Command="{Binding BindingContext.BookTimeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                 CommandParameter="{Binding}"
+                                CornerRadius="5"
                                 Text="Book" />
                         </VerticalStackLayout>
                     </Border>
