@@ -14,11 +14,14 @@ namespace GolfApp.ViewModels
     public partial class ManageViewModel : ObservableObject
     {
         public ObservableCollection<GolfCourse> ManagedGolfCourses { get; set; } = new();
+        public ObservableCollection<Booking> ManagedBookings { get; set; } = new();
         private readonly IGolfCourseService _golfCourseService;
+        private readonly IBookingService _bookingService;
 
-        public ManageViewModel(IGolfCourseService golfCourseService)
+        public ManageViewModel(IGolfCourseService golfCourseService, IBookingService bookingService)
         {
             _golfCourseService = golfCourseService;
+            _bookingService = bookingService;
         }
 
         [RelayCommand]
@@ -35,6 +38,17 @@ namespace GolfApp.ViewModels
             if (success)
             {
                 ManagedGolfCourses.Remove(golfCourse);
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteBookingAsync(Booking booking)
+        {
+            bool success = await _bookingService.DeleteBookingAsync(booking.Id);
+            
+            if (success)
+            {
+                ManagedBookings.Remove(booking);
             }
         }
 
@@ -56,6 +70,19 @@ namespace GolfApp.ViewModels
             foreach (var course in courses)
             {
                 ManagedGolfCourses.Add(course);
+            }
+        }
+
+        public async Task GetManagedBookings()
+        {
+            foreach (var golfCourse in ManagedGolfCourses)
+            {
+                var bookings = await _bookingService.GetGolfCourseBookingsAsync(golfCourse.Id);
+
+                foreach (var booking in bookings)
+                {
+                    ManagedBookings.Add(booking);
+                }
             }
         }
     }

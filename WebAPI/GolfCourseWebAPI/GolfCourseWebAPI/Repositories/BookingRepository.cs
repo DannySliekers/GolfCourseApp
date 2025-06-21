@@ -96,6 +96,13 @@ namespace GolfCourseWebAPI.Repositories
             return correspondingBookings;
         }
 
+        public IEnumerable<Booking> GetAllGolfCourseBookings(int golfCourseId)
+        {
+           return _context.Bookings
+                .Where(x => x.GolfCourseId == golfCourseId)
+                .ToList();
+        }
+
         public IEnumerable<int> GetUserIds(int bookingId)
         {
             return _context.BookingsUsers.Where(x => x.BookingId == bookingId).Select(x => x.UserId);

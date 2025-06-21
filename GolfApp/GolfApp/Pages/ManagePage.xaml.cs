@@ -17,5 +17,6 @@ public partial class ManagePage : ContentPage
     {
         base.OnAppearing();
         await _viewModel.GetManagedGolfCourses();
+        await _viewModel.GetManagedBookings();
     }
 }

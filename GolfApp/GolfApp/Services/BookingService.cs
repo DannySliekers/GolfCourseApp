@@ -143,5 +143,27 @@ namespace GolfApp.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<List<Booking>> GetGolfCourseBookingsAsync(int golfCourseId)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/booking/golfcourse/{golfCourseId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<Booking>();
+            }
+
+            var bookings = await response.Content.ReadFromJsonAsync<List<Booking>>();
+
+            if (bookings == null)
+            {
+                return new List<Booking>();
+            }
+
+            return bookings;
+        }
     }
 }

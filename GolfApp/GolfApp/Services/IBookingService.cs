@@ -7,6 +7,7 @@ namespace GolfApp.Services
         Task<Booking> AddBookingAsync(Booking booking);
         Task<List<Booking>> GetAllBookingAsync();
         Task<List<Booking>> GetUserBookingsAsync();
+        Task<List<Booking>> GetGolfCourseBookingsAsync(int golfCourseId);
         Task<List<int>> GetUserIdsForBookingAsync(int bookingId);
         Task<bool> AddLoggedInUserToBookingAsync(int bookingId);
         Task<bool> AddUserToBookingAsync(int bookingId, int userId);
