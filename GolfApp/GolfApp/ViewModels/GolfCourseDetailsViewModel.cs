@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GolfApp.Models;
 using GolfApp.Services;
 using System.Collections.ObjectModel;
@@ -18,7 +19,18 @@ namespace GolfApp.ViewModels
         {
             _imageService = imageService;
         }
-        
+
+        [RelayCommand]
+        private async Task BookTeeTimeAsync(object sender)
+        {
+            await Shell.Current.GoToAsync("BookTeeTime",
+                new Dictionary<string, object>
+                {
+                    { "GolfCourse", GolfCourse }
+                }
+            );
+        }
+
         public async Task LoadImagesAsync(int courseId)
         {
             var imageSources = await _imageService.GetImagesAsync(courseId);
