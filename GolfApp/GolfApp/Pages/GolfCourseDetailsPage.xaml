@@ -6,32 +6,92 @@
     Title=""
     Shell.TabBarIsVisible="False">
     <VerticalStackLayout>
+        <CarouselView
+            HeightRequest="300"
+            HorizontalScrollBarVisibility="Never"
+            IndicatorView="imageIndicators"
+            IsBounceEnabled="true"
+            IsSwipeEnabled="true"
+            ItemsSource="{Binding Images}"
+            PeekAreaInsets="0">
 
-        <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding Images}">
-            <CollectionView.ItemTemplate>
+            <CarouselView.ItemTemplate>
                 <DataTemplate>
-                    <Image
-                        Aspect="AspectFill"
-                        HeightRequest="80"
-                        Source="{Binding .}"
-                        WidthRequest="120" />
+                    <Grid>
+                        <Image
+                            Aspect="AspectFill"
+                            HorizontalOptions="Fill"
+                            Source="{Binding .}"
+                            VerticalOptions="Fill" />
+                    </Grid>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <Label Text="{Binding GolfCourse.Name}" />
-        <Label Text="{Binding GolfCourse.Description}" />
-        <HorizontalStackLayout>
-            <Label Text="{Binding GolfCourse.AmountOfHoles}" />
-            <Label Text="{Binding GolfCourse.AmountOfCourses}" />
-            <Label Text="{Binding GolfCourse.Price}" />
-        </HorizontalStackLayout>
-        <Button Background="Black" Text="Book a Tee Time" />
-        <Border BackgroundColor="LightGrey">
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView
+            x:Name="imageIndicators"
+            Margin="0,10,0,0"
+            Count="{Binding Images.Count}"
+            HorizontalOptions="Center"
+            IndicatorColor="LightGray"
+            SelectedIndicatorColor="Black" />
+
+        <Label
+            Margin="0,20,0,0"
+            FontAttributes="Bold"
+            FontSize="24"
+            HorizontalOptions="Center"
+            Text="{Binding GolfCourse.Name}" />
+
+        <Label
+            Margin="0,10,0,0"
+            FontAttributes="Italic"
+            FontSize="20"
+            HorizontalOptions="Center"
+            Text="{Binding GolfCourse.Description}" />
+
+        <Grid
+            Margin="0,30,0,0"
+            Padding="10,0"
+            ColumnDefinitions="2*,1*,2*"
+            VerticalOptions="Center">
+
+            <Label
+                Grid.Column="0"
+                HorizontalOptions="Center"
+                Text="{Binding GolfCourse.AmountOfHoles, StringFormat='{0} holes'}"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                Text="{Binding GolfCourse.AmountOfCourses, StringFormat='{0} course'}"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Column="2"
+                HorizontalOptions="Center"
+                Text="{Binding GolfCourse.Price, StringFormat='€{0}'}"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <Button
+            Margin="0,30,0,0"
+            Background="Black"
+            CornerRadius="5"
+            Text="Book a Tee Time"
+            WidthRequest="200" />
+
+        <Border Margin="0,30,0,0" BackgroundColor="LightGrey">
             <VerticalStackLayout>
-                <Label Text="Contact" />
-                <Label Text="{Binding GolfCourse.Address}" />
-                <Label Text="{Binding GolfCourse.Phone}" />
-                <Label Text="{Binding GolfCourse.Email}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="Contact" />
+                <Label HorizontalOptions="Center" Text="{Binding GolfCourse.Address, StringFormat='Address: {0}'}" />
+                <Label HorizontalOptions="Center" Text="{Binding GolfCourse.Phone, StringFormat='Phone: {0}', FallbackValue='Unkown'}" />
+                <Label HorizontalOptions="Center" Text="{Binding GolfCourse.Email, StringFormat='Email: {0}'}" />
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>
