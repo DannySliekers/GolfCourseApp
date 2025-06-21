@@ -13,24 +13,34 @@
                     <Border
                         Margin="5"
                         Padding="10"
-                        BackgroundColor="LightGray">
+                        BackgroundColor="LightGray"
+                        StrokeShape="RoundRectangle 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Image
+                            <Frame
                                 Grid.Column="0"
-                                Aspect="AspectFill"
+                                Padding="0"
+                                CornerRadius="10"
+                                HasShadow="False"
                                 HeightRequest="200"
-                                Source="{Binding FirstImage}"
-                                WidthRequest="180" />
+                                IsClippedToBounds="True"
+                                WidthRequest="180">
+                                <!--  Important: Clips the image to the rounded corners  -->
+
+                                <Image Aspect="AspectFill" Source="{Binding FirstImage}" />
+                            </Frame>
 
 
-                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Margin="15,0,0,0"
+                                Spacing="10">
                                 <Label
                                     FontAttributes="Bold"
-                                    HorizontalOptions="Start"
+                                    HorizontalOptions="Center"
                                     Text="{Binding Name}"
                                     VerticalOptions="Start" />
                                 <Label
@@ -39,8 +49,18 @@
                                     FontSize="Small"
                                     Text="{Binding Description}" />
 
+                                <Label FontSize="Small" HorizontalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} course(s) -- {1} holes">
+                                            <Binding Path="AmountOfCourses" />
+                                            <Binding Path="AmountOfHoles" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+
                                 <Button
                                     Grid.Column="1"
+                                    Margin="0,20,0,0"
                                     BackgroundColor="Black"
                                     Command="{Binding BindingContext.BookTeeTimeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                     CommandParameter="{Binding .}"
