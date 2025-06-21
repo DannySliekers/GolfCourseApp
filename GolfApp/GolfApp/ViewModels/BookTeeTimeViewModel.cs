@@ -23,7 +23,7 @@ namespace GolfApp.ViewModels
         public GolfCourse GolfCourse { get; set; }
 
         [ObservableProperty]
-        private ObservableCollection<DisplayedBooking> availableTeeTimes;
+        private ObservableCollection<DisplayedTeeTime> availableTeeTimes;
 
         private readonly IBookingService _bookingService;
 
@@ -39,14 +39,14 @@ namespace GolfApp.ViewModels
 
         public async Task GenerateTeeTimes(TimeOnly start, TimeOnly end, int intervalMinutes)
         {
-            var list = new ObservableCollection<DisplayedBooking>();
+            var list = new ObservableCollection<DisplayedTeeTime>();
             var time = start;
             List<Booking> bookings = await _bookingService.GetAllBookingAsync();
             var amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
             while (time <= end)
             {
-                var displayBooking = new DisplayedBooking();
+                var displayBooking = new DisplayedTeeTime();
                 var correspondingBooking = bookings
                     .Where(x => x.StartTime.Date == selectedDate.Date &&
                                 TimeOnly.FromDateTime(TimeZoneInfo.ConvertTimeFromUtc(x.StartTime, amsterdamTimeZone)) == time)
@@ -71,7 +71,7 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task BookTimeAsync(DisplayedBooking booking)
+        private async Task BookTimeAsync(DisplayedTeeTime booking)
         {
             var fullDate = SelectedDate + booking.Time.ToTimeSpan();
             fullDate = DateTime.SpecifyKind(fullDate, DateTimeKind.Unspecified);

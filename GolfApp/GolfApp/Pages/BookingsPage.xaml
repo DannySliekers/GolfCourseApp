@@ -4,10 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="root"
-    Title="BookingsPage">
+    Title="My Tee Times">
     <CollectionView
         Margin="20"
-        ItemsSource="{Binding Bookings}"
+        ItemsSource="{Binding DisplayedBookings}"
         SelectionMode="None">
 
         <CollectionView.ItemTemplate>
@@ -23,25 +23,33 @@
                         <Label
                             FontAttributes="Bold"
                             FontSize="16"
+                            HorizontalOptions="Center"
                             Text="{Binding StartTime, StringFormat='Tee Time: {0:dd MMM yyyy HH:mm}'}" />
 
-                        <Label FontSize="14" Text="{Binding GolfCourseId, StringFormat='Golf Course ID: {0}'}" />
+                        <Label
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{Binding GolfCourseName, StringFormat='Golf Course: {0}'}" />
 
-                        <Label FontSize="14" Text="{Binding CreatedByUserId, StringFormat='Booked by User ID: {0}'}" />
+                        <Label
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{Binding MainBooker, StringFormat='Booked by User: {0}'}" />
                         <Button
+                            Margin="0,10,0,0"
                             BackgroundColor="Black"
                             Command="{Binding Source={x:Reference root}, Path=BindingContext.DeleteUserFromBookingCommand}"
                             CommandParameter="{Binding}"
                             CornerRadius="5"
                             Text="Remove myself" />
                         <Button
+                            Margin="0,10,0,0"
                             BackgroundColor="Black"
                             Command="{Binding Source={x:Reference root}, Path=BindingContext.DeleteBookingCommand}"
                             CommandParameter="{Binding}"
                             CornerRadius="5"
                             Text="Delete tee time" />
                     </VerticalStackLayout>
-
                 </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate>

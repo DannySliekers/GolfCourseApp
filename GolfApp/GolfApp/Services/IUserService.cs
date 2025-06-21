@@ -1,9 +1,4 @@
 ﻿using GolfApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GolfApp.Services
 {
@@ -12,5 +7,6 @@ namespace GolfApp.Services
         Task<User> GetLoggedInUser();
         Task<bool> SetUserAvatar(string avatarUrl);
         Task<List<User>> GetAllUsers();
+        Task<User> GetUserById(int userId);
     }
 }

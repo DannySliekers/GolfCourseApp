@@ -5,6 +5,7 @@ namespace GolfApp.Services
     public interface IGolfCourseService
     {
         Task<List<GolfCourse>> GetAllGolfCoursesAsync();
+        Task<GolfCourse> GetGolfCourseById(int id);
         Task<int> AddGolfCourseAsync(GolfCourse course);
         Task<bool> AddImageToGolfCourseAsync(int id, string imageUrl);
         Task<bool> DeleteGolfCourseAsync(int id);

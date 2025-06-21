@@ -99,6 +99,28 @@ namespace GolfApp.Services
             return courses;
         }
 
+        public async Task<GolfCourse> GetGolfCourseById(int id)
+        {
+            string token = await SecureStorage.Default.GetAsync("jwt");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/golfcourse/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new GolfCourse();
+            }
+
+            var course = await response.Content.ReadFromJsonAsync<GolfCourse>();
+
+            if (course == null)
+            {
+                return new GolfCourse();
+            }
+
+            return course;
+        }
+
         public async Task<List<GolfCourse>> GetManagedGolfCoursesAsync()
         {
             string token = await SecureStorage.Default.GetAsync("jwt");

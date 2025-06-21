@@ -11,24 +11,41 @@ namespace GolfApp.ViewModels
 {
     public partial class BookingsViewModel : ObservableObject
     {
-        public ObservableCollection<Booking> Bookings { get; set; } = new();
+        public ObservableCollection<DisplayedBooking> DisplayedBookings { get; set; } = new();
+        private List<Booking> bookings = [];
 
         private readonly IBookingService _bookingService;
+        private readonly IUserService _userService;
+        private readonly IGolfCourseService _golfCourseService;
         
-        public BookingsViewModel(IBookingService bookingService)
+        public BookingsViewModel(IBookingService bookingService, IUserService userService, IGolfCourseService golfCourseService)
         {
             _bookingService = bookingService;
+            _userService = userService;
+            _golfCourseService = golfCourseService;
         }
 
         public async Task InitializeAsync()
         {
             try
             {
-                var bookings = await _bookingService.GetUserBookingsAsync();
-                Bookings.Clear();
+                bookings = await _bookingService.GetUserBookingsAsync();
+                DisplayedBookings.Clear();
+                
                 foreach (var booking in bookings)
                 {
-                    Bookings.Add(booking);
+                    GolfCourse golfcourse = await _golfCourseService.GetGolfCourseById(booking.GolfCourseId);
+                    User mainBooker = await _userService.GetUserById(booking.CreatedByUserId);
+
+                    var displayedBooking = new DisplayedBooking()
+                    {
+                        Id = booking.Id,
+                        GolfCourseName = golfcourse.Name,
+                        MainBooker = mainBooker.UserName,
+                        StartTime = booking.StartTime
+                    };
+
+                    DisplayedBookings.Add(displayedBooking);
                 }
             }
             catch (Exception ex)
@@ -38,9 +55,10 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task DeleteBookingAsync(Booking booking)
+        private async Task DeleteBookingAsync(DisplayedBooking displayedBooking)
         {
             string userId = await TokenHelper.GetUserId();
+            var booking = bookings.FirstOrDefault(x => x.Id == displayedBooking.Id);
 
             if (Int32.TryParse(userId, out int userIdInt))
             {
@@ -50,7 +68,7 @@ namespace GolfApp.ViewModels
 
                     if (success)
                     {
-                        Bookings.Remove(booking);
+                        DisplayedBookings.Remove(displayedBooking);
                     }
                 }
                 else
@@ -61,9 +79,10 @@ namespace GolfApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task DeleteUserFromBookingAsync(Booking booking)
+        private async Task DeleteUserFromBookingAsync(DisplayedBooking displayedBooking)
         {
             string userId = await TokenHelper.GetUserId();
+            var booking = bookings.FirstOrDefault(x => x.Id == displayedBooking.Id);
 
             if (Int32.TryParse(userId, out int userIdInt))
             {
@@ -73,7 +92,7 @@ namespace GolfApp.ViewModels
 
                     if (success)
                     {
-                        Bookings.Remove(booking);
+                        DisplayedBookings.Remove(displayedBooking);
                     }
                 }
                 else
