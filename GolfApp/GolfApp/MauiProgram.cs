@@ -59,8 +59,11 @@ public static class MauiProgram
 
     public static MauiAppBuilder RegisterServices(this MauiAppBuilder mauiAppBuilder)
     {
-        const string baseUrl = "https://10.0.2.2:7129";
-
+        string baseUrl = DeviceInfo.Platform == DevicePlatform.Android
+	        ? "https://10.0.2.2:7129"
+	        : "https://localhost:7129";
+        ;
+        
         mauiAppBuilder.Services.AddCustomHttpClient<IAuthService, AuthService>(baseUrl);
         mauiAppBuilder.Services.AddCustomHttpClient<IGolfCourseService, GolfCourseService>(baseUrl);
         mauiAppBuilder.Services.AddCustomHttpClient<IImageService, ImageService>(baseUrl);
