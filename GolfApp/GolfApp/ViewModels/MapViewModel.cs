@@ -28,7 +28,7 @@ namespace GolfApp.ViewModels
                 Pins.Add(new Pin
                 {
                     Label = $"{golfCourse.Name}",
-                    Address = $"Insert address",
+                    Address = $"{golfCourse.Address}",
                     Location = new Location(golfCourse.Latitude, golfCourse.Longitude),
                     Type = PinType.Place
                 });
