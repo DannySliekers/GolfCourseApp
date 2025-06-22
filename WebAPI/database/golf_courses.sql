@@ -13,6 +13,6 @@ CREATE TABLE golf_courses (
     address TEXT NOT NULL,
     email TEXT NOT NULL,
     phone TEXT NOT NULL,
-    price DECIMAL(10, 2)
+    price DECIMAL(10, 2),
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
