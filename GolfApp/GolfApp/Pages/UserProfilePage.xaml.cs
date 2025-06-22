@@ -16,7 +16,7 @@ public partial class UserProfilePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.SetUser();
+        await _viewModel.SetUserAsync();
     }
 
 }

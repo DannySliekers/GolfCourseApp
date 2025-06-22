@@ -26,7 +26,7 @@ namespace GolfApp.ViewModels
         private ObservableCollection<DisplayedTeeTime> availableTeeTimes;
 
         private readonly IBookingService _bookingService;
-
+        
         public BookTeeTimeViewModel(IBookingService bookingService)
         {
             _bookingService = bookingService;
@@ -42,7 +42,18 @@ namespace GolfApp.ViewModels
             var list = new ObservableCollection<DisplayedTeeTime>();
             var time = start;
             List<Booking> bookings = await _bookingService.GetAllBookingAsync();
-            var amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+
+            TimeZoneInfo amsterdamTimeZone;
+
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+                
+            }
+            else
+            {
+                amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Amsterdam");
+            }
 
             while (time <= end)
             {
@@ -66,8 +77,10 @@ namespace GolfApp.ViewModels
                 list.Add(displayBooking);
                 time = time.AddMinutes(intervalMinutes);
             }
-
+            
+            list.Add(new DisplayedTeeTime(){ BookingId = 2, Time = TimeOnly.MaxValue});
             AvailableTeeTimes = list;
+            Debug.WriteLine($"[iOS] AvailableTeeTimes: {AvailableTeeTimes?.Count}");
         }
 
         [RelayCommand]
@@ -82,47 +95,19 @@ namespace GolfApp.ViewModels
                 await Shell.Current.DisplayAlert("Error", "Failed getting User ID.", "OK");
             }
 
-            //if (booking.UserCount > 0)
-            //{
-            //    var success = await _bookingService.AddUserToBookingAsync(booking.BookingId);
-
-            //    if (success)
-            //    {
-            //        await Shell.Current.DisplayAlert("Success", "Added user to booking.", "OK");
-            //        await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
-            //    }
-            //    else
-            //    {
-            //        await Shell.Current.DisplayAlert("Error", "Failed to add user to booking.", "OK");
-            //    }
-            ////}
-            //else
-            //{
-                var newBooking = new Booking()
+            var newBooking = new Booking()
+            {
+                Id = booking.BookingId,
+                GolfCourseId = GolfCourse.Id,
+                StartTime = fullDate,
+                CreatedByUserId = userId
+            };
+            await Shell.Current.GoToAsync("BookTeeTimeDetails",
+                new Dictionary<string, object>
                 {
-                    Id = booking.BookingId,
-                    GolfCourseId = GolfCourse.Id,
-                    StartTime = fullDate,
-                    CreatedByUserId = userId
-                };
-                await Shell.Current.GoToAsync("BookTeeTimeDetails",
-                    new Dictionary<string, object>
-                    {
-                        { "Booking", newBooking }
-                    }
-                );
-               // var success = await _bookingService.AddBookingAsync(newBooking);
-
-                //if (success)
-                //{
-                //    await Shell.Current.DisplayAlert("Success", "Booking added successfully.", "OK");
-                //    await GenerateTeeTimes(GolfCourse.BookingStartTime, GolfCourse.BookingLastStartTime, GolfCourse.StartTimeIntervalMinutes);
-                //}
-                //else
-                //{
-                //    await Shell.Current.DisplayAlert("Error", "Failed to add booking.", "OK");
-                //}
-            //}
+                    { "Booking", newBooking }
+                }
+            );
         }
     }
 }

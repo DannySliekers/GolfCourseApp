@@ -43,15 +43,11 @@ namespace GolfApp.ViewModels
         {
             try
             {
-                var result = await FilePicker.PickAsync(new PickOptions
-                {
-                    PickerTitle = "Select an image",
-                    FileTypes = FilePickerFileType.Images
-                });
+                var photo = await MediaPicker.Default.PickPhotoAsync();
 
-                if (result != null)
+                if (photo != null)
                 {
-                    using var stream = await result.OpenReadAsync();
+                    using var stream = await photo.OpenReadAsync();
                     using var memoryStream = new MemoryStream();
                     await stream.CopyToAsync(memoryStream);
                     memoryStream.Position = 0;
@@ -63,7 +59,7 @@ namespace GolfApp.ViewModels
                     {
                         ImageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes)),
                         ImageBytes = imageBytes,
-                        FileName = result.FileName
+                        FileName = photo.FileName
                     };
 
                     SelectedImages.Add(image);

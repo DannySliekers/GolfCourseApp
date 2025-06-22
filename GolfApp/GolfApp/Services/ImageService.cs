@@ -30,7 +30,14 @@ namespace GolfApp.Services
                 return new List<ImageSource>();
             }
 
-            return urls.Select(url => ImageSource.FromUri(new Uri(UrlHelpers.TransformUrl(url)))).ToList();
+            return urls
+                .Select(url =>
+                    ImageSource.FromUri(
+                        new Uri(DeviceInfo.Platform == DevicePlatform.Android
+                            ? UrlHelpers.TransformUrl(url)
+                            : UrlHelpers.TransformPortToHttp(url))
+                    )
+                ).ToList();
         }
     }
 }

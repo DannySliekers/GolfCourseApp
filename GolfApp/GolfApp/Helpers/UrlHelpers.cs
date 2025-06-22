@@ -26,7 +26,7 @@ namespace GolfApp.Helpers
             return originalUrl;
         }
 
-        public static string TransformPortToHttp(string originalUrl)
+        public static string TransformPortToHttpAndroid(string originalUrl)
         {
             if (string.IsNullOrEmpty(originalUrl))
             {
@@ -35,6 +35,24 @@ namespace GolfApp.Helpers
 
             const string oldBase = "https://10.0.2.2:7129";
             const string newBase = "http://10.0.2.2:5135";
+
+            if (originalUrl.StartsWith(oldBase))
+            {
+                return newBase + originalUrl.Substring(oldBase.Length);
+            }
+
+            return originalUrl;
+        }
+        
+        public static string TransformPortToHttp(string originalUrl)
+        {
+            if (string.IsNullOrEmpty(originalUrl))
+            {
+                return originalUrl;
+            }
+
+            const string oldBase = "https://localhost:7129";
+            const string newBase = "http://localhost:5135";
 
             if (originalUrl.StartsWith(oldBase))
             {

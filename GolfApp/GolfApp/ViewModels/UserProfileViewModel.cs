@@ -59,7 +59,15 @@ namespace GolfApp.ViewModels
                 await stream.CopyToAsync(fileStream);
                 var avatarUrl = await _uploadService.UploadFileAsync(stream, photo.FileName);
                 await _userService.SetUserAvatar(UrlHelpers.TransformToLocalHost(avatarUrl));
-                avatarUrl = UrlHelpers.TransformPortToHttp(avatarUrl);
+    
+                if (DeviceInfo.Platform == DevicePlatform.Android)
+                {
+                    avatarUrl = UrlHelpers.TransformPortToHttpAndroid(avatarUrl);
+                }
+                else
+                {
+                    avatarUrl = UrlHelpers.TransformPortToHttp(avatarUrl);
+                }
 
                 User = new User
                 {
@@ -71,10 +79,19 @@ namespace GolfApp.ViewModels
             }
         }
 
-        public async Task SetUser()
+        public async Task SetUserAsync()
         {
             var user = await _userService.GetLoggedInUser();
-            user.AvatarUrl = UrlHelpers.TransformUrl(user.AvatarUrl);
+
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                user.AvatarUrl = UrlHelpers.TransformUrl(user.AvatarUrl);
+            }
+            else
+            {
+                user.AvatarUrl = UrlHelpers.TransformPortToHttp(user.AvatarUrl);
+            }
+
             User = user;
         }
     }

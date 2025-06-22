@@ -7,20 +7,34 @@ namespace GolfApp.Pages;
 public partial class BookTeeTimePage : ContentPage
 {
     private readonly BookTeeTimeViewModel _viewModel;
+    private GolfCourse _golfCourse;
 
-	public BookTeeTimePage(BookTeeTimeViewModel viewModel)
-	{
-		InitializeComponent();
+    public BookTeeTimePage(BookTeeTimeViewModel viewModel)
+    {
+        InitializeComponent();
         _viewModel = viewModel;
-		BindingContext = viewModel;
-	}
+        BindingContext = viewModel;
+    }
 
     public GolfCourse GolfCourse
     {
         set
         {
+            _golfCourse = value;
             _viewModel.GolfCourse = value;
-            _viewModel.GenerateTeeTimes(value.BookingStartTime, value.BookingLastStartTime, value.StartTimeIntervalMinutes);
+        }
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_golfCourse != null)
+        {
+            await _viewModel.GenerateTeeTimes(
+                _golfCourse.BookingStartTime,
+                _golfCourse.BookingLastStartTime,
+                _golfCourse.StartTimeIntervalMinutes);
         }
     }
 }
