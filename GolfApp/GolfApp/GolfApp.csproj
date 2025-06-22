@@ -38,6 +38,10 @@
 	  <CodesignEntitlements>Platforms\iOS\Entitlement.plist</CodesignEntitlements>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+	  <ProvisioningType>automatic</ProvisioningType>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
