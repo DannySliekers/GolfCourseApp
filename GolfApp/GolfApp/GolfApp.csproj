@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>GolfApp</ApplicationTitle>
+		<ApplicationTitle>Golf App</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.golfapp</ApplicationId>
+		<ApplicationId>test.Yeetus</ApplicationId>
 		<ApplicationIdGuid>eeca6d7e-97f2-4c7a-a074-aaee0387cfbb</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -38,8 +38,8 @@
 	  <CodesignEntitlements>Platforms\iOS\Entitlement.plist</CodesignEntitlements>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
-	  <ProvisioningType>automatic</ProvisioningType>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+	  <CodesignKey>iPhone Developer</CodesignKey>
 	</PropertyGroup>
 
 	<ItemGroup>
